@@ -67,8 +67,8 @@ healthySchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
 
   if (update) {
-    const updateHight = await calculateHight(update.hight);
-    const updateBMI = calculateBMI(updateHight, update.weight);
+    const updateHight = await calculateHight(update?.hight);
+    const updateBMI = calculateBMI(updateHight, update?.weight);
 
     update.hight = updateHight;
     update.BMI = updateBMI;

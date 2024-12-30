@@ -1,0 +1,84 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Health = void 0;
+const mongoose_1 = require("mongoose");
+const user_model_1 = require("../user/user.model");
+const calculetBMI_1 = require("../utils/calculetBMI");
+const calculetHight_1 = require("../utils/calculetHight");
+const healthySchema = new mongoose_1.Schema({
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: [true, 'User id is required'],
+        unique: true,
+        ref: 'user',
+    },
+    BMI: {
+        type: String,
+    },
+    hight: {
+        type: String,
+    },
+    weight: {
+        type: String,
+    },
+    suggestion: {
+        type: String,
+    },
+    fitnessLevel: {
+        type: String,
+        enum: ['stay-healthy', 'gain-weight', 'lose-wight'],
+        default: 'stay-healthy',
+    },
+}, {
+    timestamps: true,
+});
+// this is when user first time create the of the user update the user
+// Pre save hook to calculate BMI
+// this is when create the user
+healthySchema.pre('save', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!this.user) {
+            throw new Error('User is required');
+        }
+        try {
+            // Get user data (height and weight)
+            const user = yield user_model_1.User.findById(this.user);
+            if (!user || !user.hight || !user.weight) {
+                throw new Error('User height or weight is missing');
+            }
+            this.BMI = (0, calculetBMI_1.calculateBMI)(user === null || user === void 0 ? void 0 : user.hight, user === null || user === void 0 ? void 0 : user.weight);
+            this.hight = user === null || user === void 0 ? void 0 : user.hight;
+            this.weight = user === null || user === void 0 ? void 0 : user.weight;
+            console.log(this);
+            // Proceed with the save operation
+            next();
+        }
+        catch (error) {
+            return next(error);
+        }
+    });
+});
+// when user update the data this time calculate the Hight and the BMI
+healthySchema.pre('findOneAndUpdate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const update = this.getUpdate();
+        if (update) {
+            const updateHight = yield (0, calculetHight_1.calculateHight)(update === null || update === void 0 ? void 0 : update.hight);
+            const updateBMI = (0, calculetBMI_1.calculateBMI)(updateHight, update === null || update === void 0 ? void 0 : update.weight);
+            update.hight = updateHight;
+            update.BMI = updateBMI;
+            this.setUpdate(update);
+        }
+        next();
+    });
+});
+exports.Health = (0, mongoose_1.model)('healths', healthySchema);

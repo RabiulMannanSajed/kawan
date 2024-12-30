@@ -13,4 +13,11 @@ app.use('/api/v1', router);
 //   const a = 7;
 //   res.send('this is running');
 // });
+const getController = (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: 'Kawan is running',
+  });
+};
+app.get('/', getController);
 export default app;
