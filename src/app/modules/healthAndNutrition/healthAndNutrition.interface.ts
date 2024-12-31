@@ -13,12 +13,3 @@ export type THealth = {
 
   weight?: string;
 };
-
-/*
-user table 
-hight = 5.5 -> 1.45m
-
-THealth create time 
-hight = 6 -> 2m
-
-*/

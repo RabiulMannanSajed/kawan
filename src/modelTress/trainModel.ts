@@ -1,26 +1,3 @@
-// import { DecisionTree } from 'decision-tree-js';
-// import { readCSV } from './readCSV';
-// import fs from 'fs';
-
-// const trainModel = async () => {
-//   try {
-//     // Assuming readCSV is a function that reads your CSV data
-//     const data = await readCSV('./src/data/healthData.csv');
-//     const features = ['Height', 'Weight', 'BMI']; // Input features
-//     const target = 'FitnessLevel'; // Target label
-
-//     const decisionTree = new DecisionTree(data, target, features);
-
-//     // Save the trained model to a JSON file
-//     const modelJSON = decisionTree.toJSON();
-//     fs.writeFileSync('./trainedModel.json', JSON.stringify(modelJSON, null, 2));
-
-//     console.log('Model trained and saved successfully!');
-//   } catch (error) {
-//     console.error('Error during model training:');
-//   }
-// };
-
 // trainModel();
 import * as fs from 'fs';
 
@@ -47,14 +24,13 @@ interface Mappings {
 // Load model and mappings
 const forest: Forest = JSON.parse(
   fs.readFileSync(
-    // '\projects2\mental-health-server\src\app\data\random_forest_weights.json',
     '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
     'utf-8',
   ),
 );
+
 const mappings: Mappings = JSON.parse(
   fs.readFileSync(
-    // '\projects2\mental-health-server\src\app\data\label_encoder_and_suggestions.json',
     '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
     'utf-8',
   ),
@@ -118,11 +94,10 @@ function getSuggestion(bmi: number): string {
   return mappings.suggestion_mapping[status];
 }
 
-// Test the prediction
-const bmiValue = 28; // BMI as number
-try {
-  const suggestion = getSuggestion(bmiValue);
-  console.log(`For BMI ${bmiValue}, Suggestion: ${suggestion}`);
-} catch (error: any) {
-  console.error(error.message);
-}
+export const suggestionOfBMI = async (userBMI: string) => {
+  //* here we send the BMI as string make is number
+  const BMINumber = parseFloat(userBMI);
+  const suggestion = getSuggestion(BMINumber);
+  console.log(`For BMI ${BMINumber}, Suggestion: ${suggestion}`);
+  // return suggestion;
+};

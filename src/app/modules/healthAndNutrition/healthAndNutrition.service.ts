@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 import { THealth } from './healthAndNutrition.interface';
 import { Health } from './healthAndNutrition.model';
-import { string } from 'zod';
 
 const createHealthIntoDB = async (payload: THealth) => {
   const result = await Health.create(payload);
@@ -34,9 +33,6 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
     new: true, // Return the updated user document
   });
 
-  // * clg of the user health
-  console.log('payload', payload);
-
   if (!updatedHealth) {
     throw new Error('health not updated');
   }
@@ -54,7 +50,6 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
 
         userInfo.hight = hight;
         userInfo.weight = weight;
-        console.log('userinfo', userInfo);
         await userInfo.save();
       }
     } catch (error) {

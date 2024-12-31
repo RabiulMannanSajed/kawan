@@ -3,6 +3,7 @@ import { THealth } from './healthAndNutrition.interface';
 import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
+import { suggestionOfBMI } from '../../../modelTress/trainModel';
 
 const healthySchema = new Schema<THealth>(
   {
@@ -63,19 +64,25 @@ healthySchema.pre('save', async function (next) {
 });
 
 // when user update the data this time calculate the Hight and the BMI
-healthySchema.pre('findOneAndUpdate', async function (next) {
-  const update = this.getUpdate();
+// healthySchema.pre('findOneAndUpdate', async function (next) {
+//   const update = this.getUpdate();
+//   console.log(update);
 
-  if (update) {
-    const updateHight = await calculateHight(update?.hight);
-    const updateBMI = calculateBMI(updateHight, update?.weight);
+//   if (update) {
+//     console.log(`height ${update.hight}`);
+//     const updateHight = await calculateHight(update?.hight);
+//     const updateBMI = calculateBMI(updateHight, update?.weight);
 
-    update.hight = updateHight;
-    update.BMI = updateBMI;
+//     // this suggestion from Model
+//     const getSuggestion = await suggestionOfBMI(updateBMI);
 
-    this.setUpdate(update);
-  }
-  next();
-});
+//     update.hight = updateHight;
+//     update.BMI = updateBMI;
+//     update.suggestion = getSuggestion;
+
+//     this.setUpdate(update);
+//   }
+//   next();
+// });
 
 export const Health = model<THealth>('healths', healthySchema);
