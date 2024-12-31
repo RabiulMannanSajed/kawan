@@ -63,26 +63,34 @@ healthySchema.pre('save', async function (next) {
   }
 });
 
+interface UpdateType {
+  hight?: string;
+  weight?: string;
+  BMI?: string;
+  suggestion?: string;
+}
+
 // when user update the data this time calculate the Hight and the BMI
-// healthySchema.pre('findOneAndUpdate', async function (next) {
-//   const update = this.getUpdate();
-//   console.log(update);
+healthySchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate() as UpdateType;
+  console.log(update);
+  let hight = update.hight;
+  if (update) {
+    console.log(`height ${update.hight}`);
+    // if the hight is not given handle the case
+    const updateHight = await calculateHight(hight as string);
+    const updateBMI = calculateBMI(updateHight, update.weight as string);
 
-//   if (update) {
-//     console.log(`height ${update.hight}`);
-//     const updateHight = await calculateHight(update?.hight);
-//     const updateBMI = calculateBMI(updateHight, update?.weight);
+    // this suggestion from Model
+    const getSuggestion = await suggestionOfBMI(updateBMI);
 
-//     // this suggestion from Model
-//     const getSuggestion = await suggestionOfBMI(updateBMI);
+    update.hight = updateHight;
+    update.BMI = updateBMI;
+    update.suggestion = getSuggestion;
 
-//     update.hight = updateHight;
-//     update.BMI = updateBMI;
-//     update.suggestion = getSuggestion;
-
-//     this.setUpdate(update);
-//   }
-//   next();
-// });
+    this.setUpdate(update);
+  }
+  next();
+});
 
 export const Health = model<THealth>('healths', healthySchema);

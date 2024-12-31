@@ -38,8 +38,6 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     const updatedHealth = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: id }, payload, {
         new: true, // Return the updated user document
     });
-    // * clg of the user health
-    console.log('payload', payload);
     if (!updatedHealth) {
         throw new Error('health not updated');
     }
@@ -56,7 +54,6 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
                 const weight = updatedHealth.weight;
                 userInfo.hight = hight;
                 userInfo.weight = weight;
-                console.log('userinfo', userInfo);
                 yield userInfo.save();
             }
         }

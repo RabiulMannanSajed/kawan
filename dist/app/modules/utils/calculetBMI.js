@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculateBMI = void 0;
 const calculateBMI = (hight, weight) => {
-    const bmi = weight / (hight * 2); // number
+    const numberHight = parseFloat(hight);
+    const numberWeight = parseFloat(weight);
+    const bmi = numberWeight / (numberHight * 2);
     const BMICalculation = bmi.toFixed(2);
     const BMI = BMICalculation.toString();
     return BMI;

@@ -1,7 +1,4 @@
 "use strict";
-// import { DecisionTree } from 'decision-tree-js';
-// import { readCSV } from './readCSV';
-// import fs from 'fs';
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -35,31 +32,26 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// const trainModel = async () => {
-//   try {
-//     // Assuming readCSV is a function that reads your CSV data
-//     const data = await readCSV('./src/data/healthData.csv');
-//     const features = ['Height', 'Weight', 'BMI']; // Input features
-//     const target = 'FitnessLevel'; // Target label
-//     const decisionTree = new DecisionTree(data, target, features);
-//     // Save the trained model to a JSON file
-//     const modelJSON = decisionTree.toJSON();
-//     fs.writeFileSync('./trainedModel.json', JSON.stringify(modelJSON, null, 2));
-//     console.log('Model trained and saved successfully!');
-//   } catch (error) {
-//     console.error('Error during model training:');
-//   }
-// };
+exports.suggestionOfBMI = void 0;
 // trainModel();
 const fs = __importStar(require("fs"));
 // Load model and mappings
 const forest = JSON.parse(fs.readFileSync(
-// '\projects2\mental-health-server\src\app\data\random_forest_weights.json',
-'/projects2/mental-health-server/src/app/data/random_forest_weights.json', 'utf-8'));
+// '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
+'/projects2/mental-health-server/data/random_forest_weights.json', 'utf-8'));
 const mappings = JSON.parse(fs.readFileSync(
-// '\projects2\mental-health-server\src\app\data\label_encoder_and_suggestions.json',
-'/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json', 'utf-8'));
+// '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
+'/projects2/mental-health-server/data/label_encoder_and_suggestions.json', 'utf-8'));
 // Function to traverse a single tree
 function traverseTree(tree, bmi) {
     let node = 0;
@@ -104,12 +96,11 @@ function getSuggestion(bmi) {
     // Return suggestion
     return mappings.suggestion_mapping[status];
 }
-// Test the prediction
-const bmiValue = 28; // BMI as number
-try {
-    const suggestion = getSuggestion(bmiValue);
-    console.log(`For BMI ${bmiValue}, Suggestion: ${suggestion}`);
-}
-catch (error) {
-    console.error(error.message);
-}
+const suggestionOfBMI = (userBMI) => __awaiter(void 0, void 0, void 0, function* () {
+    //* here we send the BMI as string make is number
+    const BMINumber = parseFloat(userBMI);
+    const suggestion = getSuggestion(BMINumber);
+    console.log(`For BMI ${BMINumber}, Suggestion: ${suggestion}`);
+    return suggestion;
+});
+exports.suggestionOfBMI = suggestionOfBMI;

@@ -24,14 +24,16 @@ interface Mappings {
 // Load model and mappings
 const forest: Forest = JSON.parse(
   fs.readFileSync(
-    '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
+    // '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
+    '/projects2/mental-health-server/data/random_forest_weights.json',
     'utf-8',
   ),
 );
 
 const mappings: Mappings = JSON.parse(
   fs.readFileSync(
-    '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
+    // '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
+    '/projects2/mental-health-server/data/label_encoder_and_suggestions.json',
     'utf-8',
   ),
 );
@@ -99,5 +101,5 @@ export const suggestionOfBMI = async (userBMI: string) => {
   const BMINumber = parseFloat(userBMI);
   const suggestion = getSuggestion(BMINumber);
   console.log(`For BMI ${BMINumber}, Suggestion: ${suggestion}`);
-  // return suggestion;
+  return suggestion;
 };

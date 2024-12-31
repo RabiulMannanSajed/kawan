@@ -51,17 +51,27 @@ const UserSchema = new Schema<TUser>(
   },
 );
 
+interface UpdateType {
+  height?: string;
+}
 //*  this will convert the hight into m
 // Pre-findOneAndUpdate middleware for updates
 UserSchema.pre('findOneAndUpdate', async function (next) {
-  const update = this.getUpdate();
+  const update = this.getUpdate() as UpdateType;
+  // let hight = update.hight;
+  // //!  define the value of hight
 
-  if (update && typeof update.hight === 'string') {
-    let updateHight = await calculateHight(update.hight);
-    update.hight = updateHight;
+  // if (update) {
+  //   let updateHight = await calculateHight(hight as string);
+  //   update.hight = updateHight;
+
+  //   this.setUpdate(update); // Apply the updated value
+  // }
+  if (update && update.height) {
+    const updatedHeight = await calculateHight(update.height); // Convert height as needed
+    update.height = updatedHeight;
     this.setUpdate(update); // Apply the updated value
   }
-
   next();
 });
 

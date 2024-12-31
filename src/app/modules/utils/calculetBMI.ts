@@ -1,5 +1,8 @@
 export const calculateBMI = (hight: string, weight: string) => {
-  const bmi = weight / (hight * 2); // number
+  const numberHight = parseFloat(hight);
+  const numberWeight = parseFloat(weight);
+
+  const bmi = numberWeight / (numberHight * 2);
   const BMICalculation = bmi.toFixed(2);
   const BMI = BMICalculation.toString();
 

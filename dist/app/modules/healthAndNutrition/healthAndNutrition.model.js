@@ -14,6 +14,7 @@ const mongoose_1 = require("mongoose");
 const user_model_1 = require("../user/user.model");
 const calculetBMI_1 = require("../utils/calculetBMI");
 const calculetHight_1 = require("../utils/calculetHight");
+const trainModel_1 = require("../../../modelTress/trainModel");
 const healthySchema = new mongoose_1.Schema({
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -71,11 +72,18 @@ healthySchema.pre('save', function (next) {
 healthySchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const update = this.getUpdate();
+        console.log(update);
+        let hight = update.hight;
         if (update) {
-            const updateHight = yield (0, calculetHight_1.calculateHight)(update === null || update === void 0 ? void 0 : update.hight);
-            const updateBMI = (0, calculetBMI_1.calculateBMI)(updateHight, update === null || update === void 0 ? void 0 : update.weight);
+            console.log(`height ${update.hight}`);
+            // if the hight is not given handle the case
+            const updateHight = yield (0, calculetHight_1.calculateHight)(hight);
+            const updateBMI = (0, calculetBMI_1.calculateBMI)(updateHight, update.weight);
+            // this suggestion from Model
+            const getSuggestion = yield (0, trainModel_1.suggestionOfBMI)(updateBMI);
             update.hight = updateHight;
             update.BMI = updateBMI;
+            update.suggestion = getSuggestion;
             this.setUpdate(update);
         }
         next();
