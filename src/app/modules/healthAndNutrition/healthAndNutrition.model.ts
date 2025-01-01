@@ -3,7 +3,7 @@ import { THealth } from './healthAndNutrition.interface';
 import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
-import { suggestionOfBMI } from '../../../modelTress/trainModel';
+// import { suggestionOfBMI } from '../../../modelTress/trainModel';
 
 const healthySchema = new Schema<THealth>(
   {
