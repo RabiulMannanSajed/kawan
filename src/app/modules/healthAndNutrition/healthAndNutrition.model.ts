@@ -82,11 +82,11 @@ healthySchema.pre('findOneAndUpdate', async function (next) {
     const updateBMI = calculateBMI(updateHight, update.weight as string);
 
     // this suggestion from Model
-    const getSuggestion = await suggestionOfBMI(updateBMI);
+    // const getSuggestion = await suggestionOfBMI(updateBMI);
 
     update.hight = updateHight;
     update.BMI = updateBMI;
-    update.suggestion = getSuggestion;
+    // update.suggestion = getSuggestion;
 
     this.setUpdate(update);
   }
