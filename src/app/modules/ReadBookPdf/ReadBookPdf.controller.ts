@@ -11,7 +11,7 @@ const createReadBookPdf = catchAsync(async (req, res) => {
 });
 
 const getAllReadBook = catchAsync(async (req, res) => {
-  const result = await ReadBookPdfService.getAllUserFromDB();
+  const result = await ReadBookPdfService.getAllReadBookPdfFromDB();
   res.status(200).json({
     success: true,
     message: 'All books are getS  successfully',
@@ -22,6 +22,7 @@ const getAllReadBook = catchAsync(async (req, res) => {
 const getSingleReadBookPdf = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await ReadBookPdfService.getSingleReadBookPdf(id);
+
   res.status(200).json({
     success: true,
     message: 'All books are getS  successfully',
