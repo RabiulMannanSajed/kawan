@@ -52,9 +52,14 @@ const createReadBookPdfIntoDB = async (payload: TReadBookPdf) => {
   }
 };
 
-const getAllUserFromDB = async () => {
-  const result = await ReadBookPdf.find();
-  return result;
+const getAllReadBookPdfFromDB = async () => {
+  try {
+    const result = await ReadBookPdf.find({ IsDelete: false });
+    return result;
+  } catch (error) {
+    console.error('Error fetching chats from the database:', error);
+    throw error;
+  }
 };
 
 const getSingleReadBookPdf = async (id: string) => {
@@ -82,7 +87,7 @@ const deleteReadBookPdf = async (id: string) => {
 };
 
 export const ReadBookPdfService = {
-  getAllUserFromDB,
+  getAllReadBookPdfFromDB,
   deleteReadBookPdf,
   getSingleReadBookPdf,
   createReadBookPdfIntoDB,

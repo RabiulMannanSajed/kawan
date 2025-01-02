@@ -24,7 +24,6 @@ const getAllChatFromDB = async () => {
   // don't show those chat which is deleted
   try {
     const result = await Chat.find({ IsDelete: false });
-    // const result = await Chat.find();
     return result;
   } catch (error) {
     console.error('Error fetching chats from the database:', error);
