@@ -7,6 +7,8 @@ const catchAsync = (fn: RequestHandler) => {
 };
 export default catchAsync;
 
+// = (req ,res,next) : RequestHandler=>{
+// }
 /*
  res.status(200).json({
       success: true,

@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { TEBook } from './EBook.interface';
 
 const EBookSchema = new Schema<TEBook>({
   title: {
@@ -29,10 +30,7 @@ const EBookSchema = new Schema<TEBook>({
     type: String,
     required: [true, 'Book About Author is required'],
   },
-  audio: {
-    type: String,
-    // required: [true, 'Book audio is required'],
-  },
+
   publishDate: {
     type: String,
     required: [true, 'Book publishDate is required'],
@@ -40,6 +38,12 @@ const EBookSchema = new Schema<TEBook>({
   language: {
     type: String,
     required: [true, 'Book language type is required'],
+  },
+  audio: {
+    type: [String],
+  },
+  book: {
+    type: [String],
   },
 });
 
