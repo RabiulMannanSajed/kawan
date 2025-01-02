@@ -9,7 +9,7 @@ const createHealthIntoDB = async (payload: THealth) => {
 };
 
 const getAllHealthFromDB = async () => {
-  const result = await Health.find().populate('user');
+  const result = await Health.find();
   return result;
 };
 
