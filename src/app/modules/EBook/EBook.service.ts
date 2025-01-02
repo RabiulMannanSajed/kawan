@@ -1,3 +1,4 @@
+import { TEBook } from './EBook.interface';
 import { EBook } from './EBook.model';
 
 const createEBookIntoDB = async (payload: TEBook) => {
