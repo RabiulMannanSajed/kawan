@@ -13,6 +13,10 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+const getSingleUserFromDb = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
 const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
   if (payload.hight && typeof payload.hight !== 'string') {
     throw new Error('Hight must be a string.');
@@ -59,6 +63,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
 };
 
 export const UserServices = {
+  getSingleUserFromDb,
   createUserIntoDB,
   getAllUserFromDB,
   updateUserIntoDB,

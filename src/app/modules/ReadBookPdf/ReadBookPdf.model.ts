@@ -3,7 +3,6 @@ import { TReadBookPdf } from './ReadBookPdf.interface';
 
 const ReadBooksPdfSchema = new Schema<TReadBookPdf>({
   userId: {
-    // type: String,
     type: Schema.Types.ObjectId,
   },
   ebookId: {

@@ -7,6 +7,7 @@ route.post('/create-user', UserControllers.createUser);
 
 route.get('/', UserControllers.getAllUser);
 
+route.get('/:id', UserControllers.getSingleUser);
 route.patch('/:id', UserControllers.updateUser);
 
 export const UserRouters = route;

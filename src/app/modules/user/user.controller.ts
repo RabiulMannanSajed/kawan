@@ -27,14 +27,20 @@ const getAllUser = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getSingleUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.getSingleUserFromDb(id);
+  res.send(result);
+});
+
 const updateUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await UserServices.updateUserIntoDB(id, req.body);
-
   res.send(result);
 });
 
 export const UserControllers = {
+  getSingleUser,
   createUser,
   getAllUser,
   updateUser,

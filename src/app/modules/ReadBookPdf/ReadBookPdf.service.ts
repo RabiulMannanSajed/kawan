@@ -3,8 +3,6 @@ import { TReadBookPdf } from './ReadBookPdf.interface';
 import { ReadBookPdf } from './ReadBookPdf.model';
 
 const createReadBookPdfIntoDB = async (payload: TReadBookPdf) => {
-  const result = await ReadBookPdf.create(payload);
-
   console.log(payload);
   console.log(payload.ebookId);
 
@@ -59,9 +57,34 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
-const getSingleReadBookPdf = async () => {};
+const getSingleReadBookPdf = async (id: string) => {
+  const result = await ReadBookPdf.findById(id);
+  return result;
+};
+
+//  to make the book favorite
+const updateFavoriteReadBookPdf = async (id: string) => {
+  const result = await ReadBookPdf.findByIdAndUpdate(
+    id,
+    { favorite: true },
+    { new: true },
+  );
+  return result;
+};
+
+const deleteReadBookPdf = async (id: string) => {
+  const result = await ReadBookPdf.findByIdAndUpdate(
+    id,
+    { isDelete: true },
+    { new: true },
+  );
+  return result;
+};
 
 export const ReadBookPdfService = {
-  createReadBookPdfIntoDB,
   getAllUserFromDB,
+  deleteReadBookPdf,
+  getSingleReadBookPdf,
+  createReadBookPdfIntoDB,
+  updateFavoriteReadBookPdf,
 };
