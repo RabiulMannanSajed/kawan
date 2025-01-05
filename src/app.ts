@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // https://localhost:5000 //local
-//* https://kawan.onrender.com/    api/v1
+//* https://kawan.onrender.com/api/v1
 
 app.use('/api/v1', router);
 

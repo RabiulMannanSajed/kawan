@@ -1,5 +1,5 @@
-export const calculateHight = async (hight: string): Promise<string> => {
-  const hightValue = hight.trim(); // Clean up whitespace
+export const calculateHight = async (hightM: string): Promise<string> => {
+  const hightValue = hightM.trim(); // Clean up whitespace
   let feet = 0;
   let inches = 0;
 
@@ -12,6 +12,7 @@ export const calculateHight = async (hight: string): Promise<string> => {
   }
 
   const m = feet * 0.3048 + inches * 0.0254; // Conversion logic in m
-  hight = `${m.toFixed(2)} `;
+  hightM = `${m.toFixed(2)} `;
+  const hight = hightM.toString();
   return hight;
 };

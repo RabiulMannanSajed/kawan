@@ -9,10 +9,18 @@ const ReadBooksPdfSchema = new Schema<TReadBookPdf>({
     type: Schema.Types.ObjectId,
   },
 
-  title: { type: String },
-  cover: { type: String },
-  author: { type: String },
-  rating: { type: Number },
+  title: {
+    type: String,
+  },
+  cover: {
+    type: String,
+  },
+  author: {
+    type: String,
+  },
+  rating: {
+    type: Number,
+  },
   category: { type: String },
 
   favorite: {

@@ -52,14 +52,15 @@ const UserSchema = new Schema<TUser>(
 );
 
 interface UpdateType {
-  height?: string;
+  hight?: string;
 }
 
 UserSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as UpdateType;
-  if (update && update.height) {
-    const updatedHeight = await calculateHight(update.height); // Convert height as needed
-    update.height = updatedHeight;
+  console.log(update);
+  if (update && update.hight) {
+    const updatedHeight = await calculateHight(update.hight); // Convert height as needed
+    update.hight = updatedHeight;
     this.setUpdate(update); // Apply the updated value
   }
   next();

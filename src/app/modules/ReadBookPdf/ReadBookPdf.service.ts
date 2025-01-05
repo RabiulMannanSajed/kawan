@@ -1,7 +1,18 @@
+import { finished } from 'stream';
 import { EBook } from '../EBook/EBook.model';
 import { TReadBookPdf } from './ReadBookPdf.interface';
 import { ReadBookPdf } from './ReadBookPdf.model';
 
+// [
+//   URL,
+//   URL
+// ]
+// [
+//   {
+//     bookUrl,
+//     finished
+//   }
+// ]
 const createReadBookPdfIntoDB = async (payload: TReadBookPdf) => {
   console.log(payload);
   console.log(payload.ebookId);
@@ -54,7 +65,7 @@ const createReadBookPdfIntoDB = async (payload: TReadBookPdf) => {
 
 const getAllReadBookPdfFromDB = async () => {
   try {
-    const result = await ReadBookPdf.find({ IsDelete: false });
+    const result = await ReadBookPdf.find();
     return result;
   } catch (error) {
     console.error('Error fetching chats from the database:', error);

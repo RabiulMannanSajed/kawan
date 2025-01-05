@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import { EBookController } from './EBook.controller';
 
-const route = express.Router();
+const route = Router();
 
 route.post('/create-ebook', EBookController.createEbook);
 

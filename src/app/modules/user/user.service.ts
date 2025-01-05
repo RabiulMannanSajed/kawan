@@ -17,6 +17,7 @@ const getSingleUserFromDb = async (id: string) => {
   const result = await User.findById(id);
   return result;
 };
+
 const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
   if (payload.hight && typeof payload.hight !== 'string') {
     throw new Error('Hight must be a string.');
@@ -39,7 +40,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
     try {
       // Find associated health records
       const healthRecords = await Health.find({ user: id });
-
+      console.log(healthRecords);
       for (const health of healthRecords) {
         const hight = updatedUser.hight; // Fetch the updated height
         const weight = updatedUser.weight; // Fetch the updated weight
@@ -51,7 +52,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
         health.BMI = calculateBMI(hight, weight);
         health.hight = hight;
         health.weight = weight;
-
+        console.log(health.hight, health.weight);
         await health.save(); // Save changes
       }
     } catch (error) {

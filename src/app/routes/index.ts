@@ -8,7 +8,6 @@ import { EBookRouters } from '../modules/EBook/EBook.route';
 import { ReadBookPdfRouters } from '../modules/ReadBookPdf/ReadBookPdf.route';
 
 const router = Router();
-
 const moduleRoutes = [
   {
     path: '/user',

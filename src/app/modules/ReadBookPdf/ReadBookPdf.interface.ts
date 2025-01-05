@@ -1,9 +1,10 @@
 import { Types } from 'mongoose';
 
 export type TReadBookPdf = {
-  userId: Types.ObjectId;
-  ebookId: Types.ObjectId;
+  userId: Types.ObjectId; // those value come form Frontend
+  ebookId: Types.ObjectId; // those value come form Frontend
 
+  // backend will work
   title: string;
   cover: string;
   author: string;
