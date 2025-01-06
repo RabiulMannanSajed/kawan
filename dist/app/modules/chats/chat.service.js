@@ -30,7 +30,6 @@ const getAllChatFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     // don't show those chat which is deleted
     try {
         const result = yield chat_model_1.Chat.find({ IsDelete: false });
-        // const result = await Chat.find();
         return result;
     }
     catch (error) {

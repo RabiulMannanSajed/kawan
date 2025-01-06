@@ -17,7 +17,7 @@ const createHealthIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functi
     return result;
 });
 const getAllHealthFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield healthAndNutrition_model_1.Health.find().populate('user');
+    const result = yield healthAndNutrition_model_1.Health.find();
     return result;
 });
 const getSingleHealthFormDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,7 +64,16 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     console.log('updatedHealth', updatedHealth);
     return updatedHealth;
 });
+const addNewMealIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const MealIntoDB = yield healthAndNutrition_model_1.Health.find({ id });
+    if (!MealIntoDB) {
+        throw new Error('This meal is not here ');
+    }
+    const { Meal } = payload;
+    console.log(Meal);
+});
 exports.HealthServices = {
+    addNewMealIntoDB,
     createHealthIntoDB,
     getAllHealthFromDB,
     getSingleHealthFormDB,

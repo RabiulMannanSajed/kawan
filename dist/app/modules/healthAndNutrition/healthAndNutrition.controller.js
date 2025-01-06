@@ -66,9 +66,24 @@ const updateHealth = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         next(error);
     }
 });
+const addNewMeal = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield healthAndNutrition_service_1.HealthServices.addNewMealIntoDB(id, req.body);
+        res.status(200).json({
+            success: true,
+            message: `this id:${id} of the get successfully`,
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 exports.HealthController = {
+    addNewMeal,
     createHealth,
     getAllHealth,
-    getSingleHealth,
     updateHealth,
+    getSingleHealth,
 };

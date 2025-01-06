@@ -7,15 +7,20 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./app/routes"));
-const port = 3000;
+// const port = 3000;
 // parsers
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+// https://localhost:5000 //local
+//* https://kawan.onrender.com/api/v1
 app.use('/api/v1', routes_1.default);
 // app.get('/', (req: Request, res: Response) => {
 //   const a = 7;
 //   res.send('this is running');
 // });
+// basic arrow fnc
+// const valueName = () =>{
+// }
 const getController = (req, res) => {
     res.status(200).json({
         success: true,

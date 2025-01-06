@@ -9,4 +9,6 @@ const ReadBookPdf_controller_1 = require("./ReadBookPdf.controller");
 const route = express_1.default.Router();
 route.post('/create-ReadBookPdf', ReadBookPdf_controller_1.ReadBookPdfController.createReadBookPdf);
 route.get('/', ReadBookPdf_controller_1.ReadBookPdfController.getAllReadBook);
+route.patch('/:id', ReadBookPdf_controller_1.ReadBookPdfController.deleteReadBookPdf);
+route.patch('/:id', ReadBookPdf_controller_1.ReadBookPdfController.favoriteReadBookPdf);
 exports.ReadBookPdfRouters = route;

@@ -6,6 +6,8 @@ const catchAsync = (fn) => {
     };
 };
 exports.default = catchAsync;
+// = (req ,res,next) : RequestHandler=>{
+// }
 /*
  res.status(200).json({
       success: true,

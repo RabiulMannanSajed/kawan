@@ -14,7 +14,78 @@ const mongoose_1 = require("mongoose");
 const user_model_1 = require("../user/user.model");
 const calculetBMI_1 = require("../utils/calculetBMI");
 const calculetHight_1 = require("../utils/calculetHight");
-const trainModel_1 = require("../../../modelTress/trainModel");
+const mealSchema = new mongoose_1.Schema({
+    //! not check the enum type
+    havingMeal: {
+        type: String,
+        enum: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
+        required: true,
+    },
+    havingFood: [
+        {
+            quantity: {
+                type: String, // e.g., "100g"
+                required: true,
+            },
+            foodType: {
+                type: String,
+                enum: [
+                    'Pancakes',
+                    'Eggs',
+                    'Cereal',
+                    'Smoothie',
+                    'Toast',
+                    'Sandwich',
+                    'Salad',
+                    'Pasta',
+                    'Burger',
+                    'Soup',
+                    'Steak',
+                    'Roast Chicken',
+                    'Pizza',
+                    'Seafood',
+                    'Nuts',
+                    'Chips',
+                    'Chocolate',
+                    'Granola Bar',
+                    'Apple',
+                    'Banana',
+                    'Orange',
+                    'Strawberry',
+                    'Mango',
+                    'Grapes',
+                    'Sushi',
+                    'Ramen',
+                    'Dumplings',
+                    'Pad Thai',
+                    'Spring Rolls',
+                    'Kimchi',
+                    'Pho',
+                    'Biryani',
+                    'Tandoori Chicken',
+                ],
+                required: true,
+            },
+            GainCal: {
+                type: String,
+            },
+            GainProtein: {
+                type: String,
+            },
+            GainFat: {
+                type: String,
+            },
+            GainCarbo: {
+                type: String,
+            },
+        },
+    ],
+    havingTime: {
+        type: Date,
+        required: true,
+    },
+    totalCal: { type: String },
+});
 const healthySchema = new mongoose_1.Schema({
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -39,12 +110,12 @@ const healthySchema = new mongoose_1.Schema({
         enum: ['stay-healthy', 'gain-weight', 'lose-wight'],
         default: 'stay-healthy',
     },
+    Meal: {
+        type: [mealSchema], // Array of meal sub-schemas
+    },
 }, {
     timestamps: true,
 });
-// this is when user first time create the of the user update the user
-// Pre save hook to calculate BMI
-// this is when create the user
 healthySchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!this.user) {
@@ -80,10 +151,10 @@ healthySchema.pre('findOneAndUpdate', function (next) {
             const updateHight = yield (0, calculetHight_1.calculateHight)(hight);
             const updateBMI = (0, calculetBMI_1.calculateBMI)(updateHight, update.weight);
             // this suggestion from Model
-            const getSuggestion = yield (0, trainModel_1.suggestionOfBMI)(updateBMI);
+            // const getSuggestion = await suggestionOfBMI(updateBMI);
             update.hight = updateHight;
             update.BMI = updateBMI;
-            update.suggestion = getSuggestion;
+            // update.suggestion = getSuggestion;
             this.setUpdate(update);
         }
         next();

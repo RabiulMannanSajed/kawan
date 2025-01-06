@@ -31,10 +31,6 @@ const EBookSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Book About Author is required'],
     },
-    audio: {
-        type: String,
-        // required: [true, 'Book audio is required'],
-    },
     publishDate: {
         type: String,
         required: [true, 'Book publishDate is required'],
@@ -42,6 +38,12 @@ const EBookSchema = new mongoose_1.Schema({
     language: {
         type: String,
         required: [true, 'Book language type is required'],
+    },
+    audio: {
+        type: [String],
+    },
+    book: {
+        type: [String],
     },
 });
 exports.EBook = (0, mongoose_1.model)('ebook', EBookSchema);

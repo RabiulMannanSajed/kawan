@@ -21,7 +21,10 @@ const getAllUserFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.find();
     return result;
 });
-// TODO return here next
+const getSingleUserFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findById(id);
+    return result;
+});
 const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (payload.hight && typeof payload.hight !== 'string') {
         throw new Error('Hight must be a string.');
@@ -41,6 +44,7 @@ const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
         try {
             // Find associated health records
             const healthRecords = yield healthAndNutrition_model_1.Health.find({ user: id });
+            console.log(healthRecords);
             for (const health of healthRecords) {
                 const hight = updatedUser.hight; // Fetch the updated height
                 const weight = updatedUser.weight; // Fetch the updated weight
@@ -50,6 +54,7 @@ const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
                 health.BMI = (0, calculetBMI_1.calculateBMI)(hight, weight);
                 health.hight = hight;
                 health.weight = weight;
+                console.log(health.hight, health.weight);
                 yield health.save(); // Save changes
             }
         }
@@ -60,6 +65,7 @@ const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
     return updatedUser;
 });
 exports.UserServices = {
+    getSingleUserFromDb,
     createUserIntoDB,
     getAllUserFromDB,
     updateUserIntoDB,

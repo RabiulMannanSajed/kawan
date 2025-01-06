@@ -24,14 +24,45 @@ const createReadBookPdf = (0, catchAcync_1.default)((req, res) => __awaiter(void
     });
 }));
 const getAllReadBook = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield ReadBookPdf_service_1.ReadBookPdfService.getAllUserFromDB();
+    const result = yield ReadBookPdf_service_1.ReadBookPdfService.getAllReadBookPdfFromDB();
     res.status(200).json({
         success: true,
         message: 'All books are getS  successfully',
         data: result,
     });
 }));
+const getSingleReadBookPdf = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield ReadBookPdf_service_1.ReadBookPdfService.getSingleReadBookPdf(id);
+    res.status(200).json({
+        success: true,
+        message: 'All books are getS  successfully',
+        data: result,
+    });
+}));
+const favoriteReadBookPdf = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield ReadBookPdf_service_1.ReadBookPdfService.updateFavoriteReadBookPdf(id);
+    res.status(200).json({
+        success: true,
+        message: 'Favorite make successfully',
+        data: result,
+    });
+}));
+//  this is will work as soft delete
+const deleteReadBookPdf = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield ReadBookPdf_service_1.ReadBookPdfService.deleteReadBookPdf(id);
+    res.status(200).json({
+        success: true,
+        message: 'All books are get successfully',
+        data: result,
+    });
+}));
 exports.ReadBookPdfController = {
+    getSingleReadBookPdf,
+    favoriteReadBookPdf,
     createReadBookPdf,
+    deleteReadBookPdf,
     getAllReadBook,
 };

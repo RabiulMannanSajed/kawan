@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculateHight = void 0;
-const calculateHight = (hight) => __awaiter(void 0, void 0, void 0, function* () {
-    const hightValue = hight.trim(); // Clean up whitespace
+const calculateHight = (hightM) => __awaiter(void 0, void 0, void 0, function* () {
+    const hightValue = hightM.trim(); // Clean up whitespace
     let feet = 0;
     let inches = 0;
     if (hightValue.includes('.')) {
@@ -23,7 +23,8 @@ const calculateHight = (hight) => __awaiter(void 0, void 0, void 0, function* ()
         feet = parseFloat(hightValue) || 0;
     }
     const m = feet * 0.3048 + inches * 0.0254; // Conversion logic in m
-    hight = `${m.toFixed(2)} `;
+    hightM = `${m.toFixed(2)} `;
+    const hight = hightM.toString();
     return hight;
 });
 exports.calculateHight = calculateHight;

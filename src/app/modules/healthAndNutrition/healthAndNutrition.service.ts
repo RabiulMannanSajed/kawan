@@ -36,6 +36,7 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   if (!updatedHealth) {
     throw new Error('health not updated');
   }
+
   //TODO : when this health will update the hight and weight data then also update in the User collection
   //! this function is not working
   if (payload.hight || payload.weight) {
@@ -61,7 +62,17 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   return updatedHealth;
 };
 
+const addNewMealIntoDB = async (id: string, payload: Partial<THealth>) => {
+  const MealIntoDB = await Health.find({ id });
+  if (!MealIntoDB) {
+    throw new Error('This meal is not here ');
+  }
+  const { Meal } = payload;
+
+  console.log(Meal);
+};
 export const HealthServices = {
+  addNewMealIntoDB,
   createHealthIntoDB,
   getAllHealthFromDB,
   getSingleHealthFormDB,

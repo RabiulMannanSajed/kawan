@@ -56,25 +56,16 @@ const UserSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-//*  this will convert the hight into m
-// Pre-findOneAndUpdate middleware for updates
 UserSchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const update = this.getUpdate();
-        // let hight = update.hight;
-        // //!  define the value of hight
-        // if (update) {
-        //   let updateHight = await calculateHight(hight as string);
-        //   update.hight = updateHight;
-        //   this.setUpdate(update); // Apply the updated value
-        // }
-        if (update && update.height) {
-            const updatedHeight = yield (0, calculetHight_1.calculateHight)(update.height); // Convert height as needed
-            update.height = updatedHeight;
+        console.log(update);
+        if (update && update.hight) {
+            const updatedHeight = yield (0, calculetHight_1.calculateHight)(update.hight); // Convert height as needed
+            update.hight = updatedHeight;
             this.setUpdate(update); // Apply the updated value
         }
         next();
     });
 });
-// * here define the table name 'user'
 exports.User = (0, mongoose_1.model)('user', UserSchema);

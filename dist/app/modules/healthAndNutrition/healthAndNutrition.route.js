@@ -10,5 +10,6 @@ const route = express_1.default.Router();
 route.post('/create-health', healthAndNutrition_controller_1.HealthController.createHealth);
 route.get('/', healthAndNutrition_controller_1.HealthController.getAllHealth);
 route.get('/:id', healthAndNutrition_controller_1.HealthController.getSingleHealth);
-route.patch('/:id', healthAndNutrition_controller_1.HealthController.updateHealth);
+route.patch('/:id', healthAndNutrition_controller_1.HealthController.updateHealth); // this with out meal any thing can update
+route.patch('/addNewMeal/:id', healthAndNutrition_controller_1.HealthController.addNewMeal);
 exports.HealthRouters = route;

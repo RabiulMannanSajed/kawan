@@ -48,10 +48,12 @@ const fs = __importStar(require("fs"));
 // Load model and mappings
 const forest = JSON.parse(fs.readFileSync(
 // '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
-'/projects2/mental-health-server/data/random_forest_weights.json', 'utf-8'));
+// '/src/modelTress/random_forest_weights.json',
+'random_forest_weights.json', 'utf-8'));
 const mappings = JSON.parse(fs.readFileSync(
 // '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
-'/projects2/mental-health-server/data/label_encoder_and_suggestions.json', 'utf-8'));
+// '/projects2/mental-health-server/data/label_encoder_and_suggestions.json',
+'label_encoder_and_suggestions.json', 'utf-8'));
 // Function to traverse a single tree
 function traverseTree(tree, bmi) {
     let node = 0;

@@ -37,12 +37,18 @@ const getAllUser = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, voi
     //   });
     res.send(result);
 }));
+const getSingleUser = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield user_service_1.UserServices.getSingleUserFromDb(id);
+    res.send(result);
+}));
 const updateUser = (0, catchAcync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield user_service_1.UserServices.updateUserIntoDB(id, req.body);
     res.send(result);
 }));
 exports.UserControllers = {
+    getSingleUser,
     createUser,
     getAllUser,
     updateUser,

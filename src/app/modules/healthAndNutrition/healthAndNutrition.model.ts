@@ -1,9 +1,80 @@
 import { model, Schema } from 'mongoose';
-import { THealth } from './healthAndNutrition.interface';
+import { THealth, TMeal } from './healthAndNutrition.interface';
 import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
-// import { suggestionOfBMI } from '../../../modelTress/trainModel';
+const mealSchema = new Schema<TMeal>({
+  //! not check the enum type
+  havingMeal: {
+    type: String,
+    enum: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
+    required: true,
+  },
+  havingFood: [
+    {
+      quantity: {
+        type: String, // e.g., "100g"
+        required: true,
+      },
+      foodType: {
+        type: String,
+        enum: [
+          'Pancakes',
+          'Eggs',
+          'Cereal',
+          'Smoothie',
+          'Toast',
+          'Sandwich',
+          'Salad',
+          'Pasta',
+          'Burger',
+          'Soup',
+          'Steak',
+          'Roast Chicken',
+          'Pizza',
+          'Seafood',
+          'Nuts',
+          'Chips',
+          'Chocolate',
+          'Granola Bar',
+          'Apple',
+          'Banana',
+          'Orange',
+          'Strawberry',
+          'Mango',
+          'Grapes',
+          'Sushi',
+          'Ramen',
+          'Dumplings',
+          'Pad Thai',
+          'Spring Rolls',
+          'Kimchi',
+          'Pho',
+          'Biryani',
+          'Tandoori Chicken',
+        ],
+        required: true,
+      },
+      GainCal: {
+        type: String,
+      },
+      GainProtein: {
+        type: String,
+      },
+      GainFat: {
+        type: String,
+      },
+      GainCarbo: {
+        type: String,
+      },
+    },
+  ],
+  havingTime: {
+    type: Date,
+    required: true,
+  },
+  totalCal: { type: String },
+});
 
 const healthySchema = new Schema<THealth>(
   {
@@ -30,15 +101,15 @@ const healthySchema = new Schema<THealth>(
       enum: ['stay-healthy', 'gain-weight', 'lose-wight'],
       default: 'stay-healthy',
     },
+    Meal: {
+      type: [mealSchema], // Array of meal sub-schemas
+    },
   },
   {
     timestamps: true,
   },
 );
 
-// this is when user first time create the of the user update the user
-// Pre save hook to calculate BMI
-// this is when create the user
 healthySchema.pre('save', async function (next) {
   if (!this.user) {
     throw new Error('User is required');
