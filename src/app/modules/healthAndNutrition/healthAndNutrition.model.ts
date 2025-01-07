@@ -144,9 +144,10 @@ interface UpdateType {
 // when user update the data this time calculate the Hight and the BMI
 healthySchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as UpdateType;
-  console.log(update);
+  console.log('form update', update);
   let hight = update.hight;
-  if (update) {
+
+  if (update && update.hight) {
     console.log(`height ${update.hight}`);
     // if the hight is not given handle the case
     const updateHight = await calculateHight(hight as string);

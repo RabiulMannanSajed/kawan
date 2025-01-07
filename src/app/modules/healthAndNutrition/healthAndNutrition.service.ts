@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 import { THealth } from './healthAndNutrition.interface';
 import { Health } from './healthAndNutrition.model';
+import { add } from '@tensorflow/tfjs-node';
 
 const createHealthIntoDB = async (payload: THealth) => {
   const result = await Health.create(payload);
@@ -62,15 +63,38 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   return updatedHealth;
 };
 
-const addNewMealIntoDB = async (id: string, payload: Partial<THealth>) => {
-  const MealIntoDB = await Health.find({ id });
-  if (!MealIntoDB) {
-    throw new Error('This meal is not here ');
-  }
-  const { Meal } = payload;
+// const addNewMealIntoDB = async (id: string, payload: Partial<THealth>) => {
+//   const MealIntoDB = await Health.find({ id });
+//   if (!MealIntoDB) {
+//     throw new Error('This meal is not here ');
+//   }
+//   const { Meal } = payload;
+//   const addNewMeal = await Health.findByIdAndUpdate(id, payload);
+//   console.log(Meal);
+//   return addNewMeal;
+// };
 
-  console.log(Meal);
+const addNewMealIntoDB = async (
+  id: string,
+  newMeal: Partial<THealth['Meal'][number]>,
+) => {
+  // Find the document by ID
+  const existingHealthRecord = await Health.findById(id);
+
+  if (!existingHealthRecord) {
+    throw new Error('No record found for the provided ID');
+  }
+
+  // Push the new meal into the Meal array
+  const updatedRecord = await Health.findByIdAndUpdate(
+    id,
+    { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
+    { new: true }, // Return the updated document
+  );
+
+  return updatedRecord;
 };
+
 export const HealthServices = {
   addNewMealIntoDB,
   createHealthIntoDB,
