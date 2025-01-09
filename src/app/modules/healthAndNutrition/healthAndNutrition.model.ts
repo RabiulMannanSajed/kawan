@@ -73,30 +73,6 @@ const healthySchema = new Schema<THealth>(
   },
 );
 
-healthySchema.pre('save', async function (next) {
-  if (!this.user) {
-    throw new Error('User is required');
-  }
-
-  try {
-    // Get user data (height and weight)
-    const user = await User.findById(this.user);
-
-    if (!user || !user.hight || !user.weight) {
-      throw new Error('User height or weight is missing');
-    }
-
-    this.BMI = calculateBMI(user?.hight, user?.weight);
-    this.hight = user?.hight;
-    this.weight = user?.weight;
-    console.log(this);
-    // Proceed with the save operation
-    next();
-  } catch (error: any) {
-    return next(error);
-  }
-});
-
 // this is for the update the user value
 type TUpdateMeal = {
   havingMeal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
@@ -119,6 +95,30 @@ interface UpdateType {
   suggestion?: string;
   Meal?: TUpdateMeal[];
 }
+
+// this update for the helath
+
+healthySchema.pre('save', async function (next) {
+  // if (!this.user) {
+  //   throw new Error('User is required');
+  // }
+
+  let hight;
+  let weight;
+  // // Get user data (height and weight)
+  // const user = await User.findById(this.user);
+
+  // if (!user || !user.hight || !user.weight) {
+  //   throw new Error('User height or weight is missing');
+  // }
+
+  this.BMI = calculateBMI(hight as any, weight as any);
+  this.hight = hight;
+  this.weight = weight;
+  console.log(this);
+  // Proceed with the save operation
+  next();
+});
 
 // when user update the data this time calculate the Hight and the BMI
 healthySchema.pre('findOneAndUpdate', async function (next) {

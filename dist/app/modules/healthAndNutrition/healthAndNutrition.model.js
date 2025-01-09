@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Health = void 0;
 const mongoose_1 = require("mongoose");
-const user_model_1 = require("../user/user.model");
 const calculetBMI_1 = require("../utils/calculetBMI");
 const calculetHight_1 = require("../utils/calculetHight");
 const trainModel_1 = require("../../../modelTress/trainModel");
@@ -78,27 +77,25 @@ const healthySchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
+// this update for the helath
 healthySchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!this.user) {
-            throw new Error('User is required');
-        }
-        try {
-            // Get user data (height and weight)
-            const user = yield user_model_1.User.findById(this.user);
-            if (!user || !user.hight || !user.weight) {
-                throw new Error('User height or weight is missing');
-            }
-            this.BMI = (0, calculetBMI_1.calculateBMI)(user === null || user === void 0 ? void 0 : user.hight, user === null || user === void 0 ? void 0 : user.weight);
-            this.hight = user === null || user === void 0 ? void 0 : user.hight;
-            this.weight = user === null || user === void 0 ? void 0 : user.weight;
-            console.log(this);
-            // Proceed with the save operation
-            next();
-        }
-        catch (error) {
-            return next(error);
-        }
+        // if (!this.user) {
+        //   throw new Error('User is required');
+        // }
+        let hight;
+        let weight;
+        // // Get user data (height and weight)
+        // const user = await User.findById(this.user);
+        // if (!user || !user.hight || !user.weight) {
+        //   throw new Error('User height or weight is missing');
+        // }
+        this.BMI = (0, calculetBMI_1.calculateBMI)(hight, weight);
+        this.hight = hight;
+        this.weight = weight;
+        console.log(this);
+        // Proceed with the save operation
+        next();
     });
 });
 // when user update the data this time calculate the Hight and the BMI
