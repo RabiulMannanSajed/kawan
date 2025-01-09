@@ -103,18 +103,17 @@ healthySchema.pre('save', async function (next) {
   //   throw new Error('User is required');
   // }
 
-  let hight;
-  let weight;
+  // let hight;
+  // let weight;
   // // Get user data (height and weight)
   // const user = await User.findById(this.user);
 
   // if (!user || !user.hight || !user.weight) {
   //   throw new Error('User height or weight is missing');
   // }
-
-  this.BMI = calculateBMI(hight as any, weight as any);
-  this.hight = hight;
-  this.weight = weight;
+  const updateHight = await calculateHight(this.hight as string);
+  this.BMI = calculateBMI(updateHight, this.weight as any);
+  this.hight = updateHight;
   console.log(this);
   // Proceed with the save operation
   next();
