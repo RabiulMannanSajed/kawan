@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 import { THealth } from './healthAndNutrition.interface';
 import { Health } from './healthAndNutrition.model';
@@ -60,22 +59,13 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   }
   console.log('updatedHealth', updatedHealth);
 
-  return updatedHealth;
+  // return updatedHealth;
+  return null;
 };
-
-// const addNewMealIntoDB = async (id: string, payload: Partial<THealth>) => {
-//   const MealIntoDB = await Health.find({ id });
-//   if (!MealIntoDB) {
-//     throw new Error('This meal is not here ');
-//   }
-//   const { Meal } = payload;
-//   const addNewMeal = await Health.findByIdAndUpdate(id, payload);
-//   console.log(Meal);
-//   return addNewMeal;
-// };
 
 const addNewMealIntoDB = async (
   id: string,
+  // see when meal is optional the error is arive for the [number]
   newMeal: Partial<THealth['Meal'][number]>,
 ) => {
   // Find the document by ID
@@ -86,8 +76,8 @@ const addNewMealIntoDB = async (
   }
 
   // Push the new meal into the Meal array
-  const updatedRecord = await Health.findByIdAndUpdate(
-    id,
+  const updatedRecord = await Health.findOneAndUpdate(
+    { id },
     { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
     { new: true }, // Return the updated document
   );

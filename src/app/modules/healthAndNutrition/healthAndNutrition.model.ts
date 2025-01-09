@@ -3,57 +3,21 @@ import { THealth, TMeal } from './healthAndNutrition.interface';
 import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
+import { suggestionOfBMI } from '../../../modelTress/trainModel';
+
 const mealSchema = new Schema<TMeal>({
   //! not check the enum type
   havingMeal: {
     type: String,
     enum: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
-    required: true,
   },
   havingFood: [
     {
       quantity: {
         type: String, // e.g., "100g"
-        required: true,
       },
       foodType: {
         type: String,
-        enum: [
-          'Pancakes',
-          'Eggs',
-          'Cereal',
-          'Smoothie',
-          'Toast',
-          'Sandwich',
-          'Salad',
-          'Pasta',
-          'Burger',
-          'Soup',
-          'Steak',
-          'Roast Chicken',
-          'Pizza',
-          'Seafood',
-          'Nuts',
-          'Chips',
-          'Chocolate',
-          'Granola Bar',
-          'Apple',
-          'Banana',
-          'Orange',
-          'Strawberry',
-          'Mango',
-          'Grapes',
-          'Sushi',
-          'Ramen',
-          'Dumplings',
-          'Pad Thai',
-          'Spring Rolls',
-          'Kimchi',
-          'Pho',
-          'Biryani',
-          'Tandoori Chicken',
-        ],
-        required: true,
       },
       GainCal: {
         type: String,
@@ -71,7 +35,6 @@ const mealSchema = new Schema<TMeal>({
   ],
   havingTime: {
     type: Date,
-    required: true,
   },
   totalCal: { type: String },
 });
@@ -134,11 +97,27 @@ healthySchema.pre('save', async function (next) {
   }
 });
 
+// this is for the update the user value
+type TUpdateMeal = {
+  havingMeal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
+  havingFood: {
+    quantity: string;
+    foodType: string;
+    GainCal?: string;
+    GainProtein?: string;
+    GainFat?: string;
+    GainCarbo?: string;
+  }[];
+  totalCal: string;
+  havingTime: Date;
+};
+
 interface UpdateType {
   hight?: string;
   weight?: string;
   BMI?: string;
   suggestion?: string;
+  Meal?: TUpdateMeal[];
 }
 
 // when user update the data this time calculate the Hight and the BMI
@@ -154,13 +133,25 @@ healthySchema.pre('findOneAndUpdate', async function (next) {
     const updateBMI = calculateBMI(updateHight, update.weight as string);
 
     // this suggestion from Model
-    // const getSuggestion = await suggestionOfBMI(updateBMI);
+    const getSuggestion = await suggestionOfBMI(updateBMI);
 
     update.hight = updateHight;
     update.BMI = updateBMI;
-    // update.suggestion = getSuggestion;
+    update.suggestion = getSuggestion;
 
     this.setUpdate(update);
+  }
+
+  //* this is for the meals
+
+  if (update && update.Meal) {
+    update.Meal = update.Meal.map((meal) => ({
+      ...meal,
+      havingFood: Array.isArray(meal.havingFood)
+        ? meal.havingFood
+        : [meal.havingFood],
+    }));
+    console.log(update);
   }
   next();
 });

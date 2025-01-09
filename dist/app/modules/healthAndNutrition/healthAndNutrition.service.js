@@ -62,15 +62,21 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
         }
     }
     console.log('updatedHealth', updatedHealth);
-    return updatedHealth;
+    // return updatedHealth;
+    return null;
 });
-const addNewMealIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const MealIntoDB = yield healthAndNutrition_model_1.Health.find({ id });
-    if (!MealIntoDB) {
-        throw new Error('This meal is not here ');
+const addNewMealIntoDB = (id, 
+// see when meal is optional the error is arive for the [number]
+newMeal) => __awaiter(void 0, void 0, void 0, function* () {
+    // Find the document by ID
+    const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
+    if (!existingHealthRecord) {
+        throw new Error('No record found for the provided ID');
     }
-    const { Meal } = payload;
-    console.log(Meal);
+    // Push the new meal into the Meal array
+    const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ id }, { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
+    { new: true });
+    return updatedRecord;
 });
 exports.HealthServices = {
     addNewMealIntoDB,

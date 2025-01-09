@@ -45,15 +45,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.suggestionOfBMI = void 0;
 // trainModel();
 const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+//Here is the file system
+const forestFilePath = path.join(__dirname, 'random_forest_weights.json');
 // Load model and mappings
-const forest = JSON.parse(fs.readFileSync(
-// '/projects2/mental-health-server/src/app/data/random_forest_weights.json',
-// '/src/modelTress/random_forest_weights.json',
-'random_forest_weights.json', 'utf-8'));
-const mappings = JSON.parse(fs.readFileSync(
-// '/projects2/mental-health-server/src/app/data/label_encoder_and_suggestions.json',
-// '/projects2/mental-health-server/data/label_encoder_and_suggestions.json',
-'label_encoder_and_suggestions.json', 'utf-8'));
+const forest = JSON.parse(fs.readFileSync(forestFilePath, 'utf-8'));
+const labelFilePath = path.join(__dirname, 'label_encoder_and_suggestions.json');
+const mappings = JSON.parse(fs.readFileSync(labelFilePath, 'utf-8'));
 // Function to traverse a single tree
 function traverseTree(tree, bmi) {
     let node = 0;
