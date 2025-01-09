@@ -91,7 +91,10 @@ healthySchema.pre('save', function (next) {
         //   throw new Error('User height or weight is missing');
         // }
         const updateHight = yield (0, calculetHight_1.calculateHight)(this.hight);
-        this.BMI = (0, calculetBMI_1.calculateBMI)(updateHight, this.weight);
+        const userBMI = (0, calculetBMI_1.calculateBMI)(updateHight, this.weight);
+        const getSuggestion = yield (0, trainModel_1.suggestionOfBMI)(userBMI);
+        this.BMI = userBMI;
+        this.suggestion = getSuggestion;
         this.hight = updateHight;
         console.log(this);
         // Proceed with the save operation
