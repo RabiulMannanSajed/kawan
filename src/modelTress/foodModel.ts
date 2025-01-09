@@ -42,7 +42,7 @@ const nutritionDatabase: { [foodName: string]: NutritionInfo } = {
 };
 
 // Function to calculate total nutritional intake
-function calculateTotalIntake(
+export function calculateTotalIntake(
   consumedFoods: { foodName: string; grams: number }[],
 ): NutritionInfo {
   // Initialize totals
@@ -85,5 +85,5 @@ const consumedFoods = [
   { foodName: 'Chicken Breast', grams: 200 },
 ];
 
-const totalIntake = calculateTotalIntake(consumedFoods);
+export const totalIntake = calculateTotalIntake(consumedFoods);
 console.log('Total Nutritional Intake:', totalIntake);

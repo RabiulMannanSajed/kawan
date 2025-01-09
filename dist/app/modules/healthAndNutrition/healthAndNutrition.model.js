@@ -120,12 +120,16 @@ healthySchema.pre('findOneAndUpdate', function (next) {
             this.setUpdate(update);
         }
         //* this is for the meals
-        if (update && update.Meal) {
-            update.Meal = update.Meal.map((meal) => (Object.assign(Object.assign({}, meal), { havingFood: Array.isArray(meal.havingFood)
-                    ? meal.havingFood
-                    : [meal.havingFood] })));
-            console.log(update);
-        }
+        // if (update && update.Meal) {
+        //   // update.Meal = update.Meal.map((meal) => ({
+        //   //   ...meal,
+        //   //   havingFood: Array.isArray(meal.havingFood)
+        //   //     ? meal.havingFood
+        //   //     : [meal.havingFood],
+        //   // }));
+        //   console.log('this is meal');
+        //   console.log(update);
+        // }
         next();
     });
 });

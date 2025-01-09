@@ -11,6 +11,6 @@ route.get('/:id', HealthController.getSingleHealth);
 
 route.patch('/:id', HealthController.updateHealth); // this with out meal any thing can update
 
-route.patch('/addNewMeal/:id', HealthController.addNewMeal);
+// route.patch('/addNewMeal/:id', HealthController.addNewMeal);
 
 export const HealthRouters = route;

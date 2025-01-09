@@ -65,21 +65,30 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     // return updatedHealth;
     return null;
 });
-const addNewMealIntoDB = (id, 
-// see when meal is optional the error is arive for the [number]
-newMeal) => __awaiter(void 0, void 0, void 0, function* () {
-    // Find the document by ID
-    const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
-    if (!existingHealthRecord) {
-        throw new Error('No record found for the provided ID');
-    }
-    // Push the new meal into the Meal array
-    const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ id }, { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
-    { new: true });
-    return updatedRecord;
-});
+// const addNewMealIntoDB = async (
+//   id: string,
+//   // see when meal is optional the error is arive for the [number]
+//   payload: Partial<THealth['Meal'][number]>,
+// ) => {
+//   // Find the document by ID
+//   const existingHealthRecord = await Health.findById(id);
+//   if (!existingHealthRecord) {
+//     throw new Error('No record found for the provided ID');
+//   }
+//   console.log('meal', payload.havingFood);
+//   //! this is not working here
+//   // calculateTotalIntake(payload.havingFood)
+//   // Push the new meal into the Meal array
+//   // const updatedRecord = await Health.findOneAndUpdate(
+//   //   { id },
+//   //   { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
+//   //   { new: true }, // Return the updated document
+//   // );
+//   // return updatedRecord;
+//   return null;
+// };
 exports.HealthServices = {
-    addNewMealIntoDB,
+    // addNewMealIntoDB,
     createHealthIntoDB,
     getAllHealthFromDB,
     getSingleHealthFormDB,

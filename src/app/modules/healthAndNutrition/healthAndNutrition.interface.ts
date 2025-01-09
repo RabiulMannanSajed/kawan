@@ -19,7 +19,7 @@ export type THealth = {
 
   fitnessLevel?: 'stay-healthy' | 'gain-weight' | 'lose-wight';
 
-  Meal: TMeal[];
+  Meal?: TMeal[];
 
   BMI?: string;
 

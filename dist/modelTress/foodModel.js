@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.totalIntake = void 0;
+exports.calculateTotalIntake = calculateTotalIntake;
 // Predefined dataset with nutritional information per gram for each food item
 const nutritionDatabase = {
     apple: { carbohydrates: 0.14, fats: 0.002, proteins: 0.003, calories: 0.52 },
@@ -71,5 +74,5 @@ const consumedFoods = [
     { foodName: 'Banana', grams: 120 },
     { foodName: 'Chicken Breast', grams: 200 },
 ];
-const totalIntake = calculateTotalIntake(consumedFoods);
-console.log('Total Nutritional Intake:', totalIntake);
+exports.totalIntake = calculateTotalIntake(consumedFoods);
+console.log('Total Nutritional Intake:', exports.totalIntake);
