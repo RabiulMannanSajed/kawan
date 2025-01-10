@@ -99,7 +99,6 @@ const updateExistsHabitDateIntoDB = async (
     }
   }
   const updatedHabit = await Habit.findById(id);
-  console.log(updatedHabit);
   return updatedHabit;
 };
 

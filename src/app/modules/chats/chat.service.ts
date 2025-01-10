@@ -3,8 +3,6 @@ import { TChat } from './chat.interface';
 import { Chat } from './chat.model';
 
 const createChatIntoDB = async (payload: TChat) => {
-  console.log(payload);
-
   // check those email exists or not
   const formEmailExists = await User.findOne({ email: payload.FromEmail });
   if (!formEmailExists) {

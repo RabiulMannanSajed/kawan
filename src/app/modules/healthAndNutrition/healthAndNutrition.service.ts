@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { calculateTotalIntake } from '../../../modelTress/foodModel';
 import { User } from '../user/user.model';
 import { THealth } from './healthAndNutrition.interface';
@@ -64,36 +65,49 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   return null;
 };
 
-// const addNewMealIntoDB = async (
-//   id: string,
-//   // see when meal is optional the error is arive for the [number]
-//   payload: Partial<THealth['Meal'][number]>,
-// ) => {
-//   // Find the document by ID
-//   const existingHealthRecord = await Health.findById(id);
+const addNewMealIntoDB = async (
+  id: string,
 
-//   if (!existingHealthRecord) {
-//     throw new Error('No record found for the provided ID');
-//   }
+  payload: Partial<THealth>,
+) => {
+  const existingHealthRecord = await Health.findById(id);
 
-//   console.log('meal', payload.havingFood);
+  if (!existingHealthRecord) {
+    throw new Error('No record found for the provided ID');
+  }
 
-//   //! this is not working here
-//   // calculateTotalIntake(payload.havingFood)
+  const { Meal } = payload;
 
-//   // Push the new meal into the Meal array
-//   // const updatedRecord = await Health.findOneAndUpdate(
-//   //   { id },
-//   //   { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
-//   //   { new: true }, // Return the updated document
-//   // );
+  const newMeals = Meal?.map((meal) => {
+    const foodValue = meal.havingFood;
+    const nutritionTotals = calculateTotalIntake(foodValue);
+    return {
+      ...meal,
+      totalCal: nutritionTotals.calories,
+      GainCarbo: nutritionTotals.carbohydrates,
+      GainFat: nutritionTotals.fats,
+      GainProtein: nutritionTotals.proteins,
+    };
+  });
 
-//   // return updatedRecord;
-//   return null;
-// };
+  // //! this is not working here
+
+  // Push the new meal into the Meal array
+  const updatedRecord = await Health.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(id) },
+    { $push: { Meal: newMeals } }, // MongoDB $push operator to add to the array
+    { new: true }, // Return the updated document
+  );
+
+  if (!updatedRecord) {
+    throw new Error('Failed to update the record. Check the provided ID.');
+  }
+
+  return updatedRecord;
+};
 
 export const HealthServices = {
-  // addNewMealIntoDB,
+  addNewMealIntoDB,
   createHealthIntoDB,
   getAllHealthFromDB,
   getSingleHealthFormDB,

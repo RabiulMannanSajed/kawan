@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.totalIntake = void 0;
 exports.calculateTotalIntake = calculateTotalIntake;
 // Predefined dataset with nutritional information per gram for each food item
 const nutritionDatabase = {
@@ -34,7 +33,6 @@ const nutritionDatabase = {
     'olive oil': { carbohydrates: 0.0, fats: 1.0, proteins: 0.0, calories: 9.0 },
     salmon: { carbohydrates: 0.0, fats: 0.13, proteins: 0.2, calories: 2.08 },
     egg: { carbohydrates: 0.01, fats: 0.1, proteins: 0.13, calories: 1.43 },
-    // Add more food items as needed
 };
 // Function to calculate total nutritional intake
 function calculateTotalIntake(consumedFoods) {
@@ -43,22 +41,27 @@ function calculateTotalIntake(consumedFoods) {
     let totalFats = 0;
     let totalProteins = 0;
     let totalCalories = 0;
+    console.log('consumedFoods', consumedFoods);
     // Iterate over each consumed food item
     for (const item of consumedFoods) {
-        const { foodName, grams } = item;
-        const nutrition = nutritionDatabase[foodName.toLowerCase()];
+        const { foodType, quantity } = item;
+        const nutrition = nutritionDatabase[foodType.toLowerCase()];
         if (nutrition) {
             // Calculate and accumulate the nutrients based on the weight consumed
-            totalCarbohydrates += nutrition.carbohydrates * grams;
-            totalFats += nutrition.fats * grams;
-            totalProteins += nutrition.proteins * grams;
-            totalCalories += nutrition.calories * grams;
+            totalCarbohydrates += nutrition.carbohydrates * quantity;
+            totalFats += nutrition.fats * quantity;
+            totalProteins += nutrition.proteins * quantity;
+            totalCalories += nutrition.calories * quantity;
         }
         else {
-            // console.warn(Nutritional information for '${foodName}' not found.);
-            console.log(`Nutritional information for '${foodName}' not found.`);
+            // console.warn(Nutritional information for '${foodType}' not found.);
+            console.log(`Nutritional information for '${foodType}' not found.`);
         }
     }
+    console.log(` totalCarbohydrates ${totalCarbohydrates},
+    fats: ${totalFats},
+    proteins: ${totalProteins},
+    calories: ${totalCalories},`);
     // Return the total nutritional intake
     return {
         carbohydrates: totalCarbohydrates,
@@ -69,10 +72,4 @@ function calculateTotalIntake(consumedFoods) {
 }
 // Example usage
 // when we return the food info this time
-const consumedFoods = [
-    { foodName: 'Apple', grams: 150 },
-    { foodName: 'Banana', grams: 120 },
-    { foodName: 'Chicken Breast', grams: 200 },
-];
-exports.totalIntake = calculateTotalIntake(consumedFoods);
-console.log('Total Nutritional Intake:', exports.totalIntake);
+// console.log('Total Nutritional Intake:', totalIntake);

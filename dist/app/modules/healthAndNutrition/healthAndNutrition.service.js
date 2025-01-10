@@ -8,8 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HealthServices = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const foodModel_1 = require("../../../modelTress/foodModel");
 const user_model_1 = require("../user/user.model");
 const healthAndNutrition_model_1 = require("./healthAndNutrition.model");
 const createHealthIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,30 +70,31 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     // return updatedHealth;
     return null;
 });
-// const addNewMealIntoDB = async (
-//   id: string,
-//   // see when meal is optional the error is arive for the [number]
-//   payload: Partial<THealth['Meal'][number]>,
-// ) => {
-//   // Find the document by ID
-//   const existingHealthRecord = await Health.findById(id);
-//   if (!existingHealthRecord) {
-//     throw new Error('No record found for the provided ID');
-//   }
-//   console.log('meal', payload.havingFood);
-//   //! this is not working here
-//   // calculateTotalIntake(payload.havingFood)
-//   // Push the new meal into the Meal array
-//   // const updatedRecord = await Health.findOneAndUpdate(
-//   //   { id },
-//   //   { $push: { Meal: newMeal } }, // MongoDB $push operator to add to the array
-//   //   { new: true }, // Return the updated document
-//   // );
-//   // return updatedRecord;
-//   return null;
-// };
+const addNewMealIntoDB = (id, 
+// see when meal is optional the error is arive for the [number]
+payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
+    if (!existingHealthRecord) {
+        throw new Error('No record found for the provided ID');
+    }
+    const { Meal } = payload;
+    const newMeals = Meal === null || Meal === void 0 ? void 0 : Meal.map((meal) => {
+        const foodValue = meal.havingFood;
+        const nutritionTotals = (0, foodModel_1.calculateTotalIntake)(foodValue);
+        return Object.assign(Object.assign({}, meal), { totalCal: nutritionTotals.calories, GainCarbo: nutritionTotals.carbohydrates, GainFat: nutritionTotals.fats, GainProtein: nutritionTotals.proteins });
+    });
+    // //! this is not working here
+    // Push the new meal into the Meal array
+    const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: new mongoose_1.default.Types.ObjectId(id) }, { $push: { Meal: newMeals } }, // MongoDB $push operator to add to the array
+    { new: true });
+    if (!updatedRecord) {
+        throw new Error('Failed to update the record. Check the provided ID.');
+    }
+    console.log('uprecord', updatedRecord);
+    return updatedRecord;
+});
 exports.HealthServices = {
-    // addNewMealIntoDB,
+    addNewMealIntoDB,
     createHealthIntoDB,
     getAllHealthFromDB,
     getSingleHealthFormDB,

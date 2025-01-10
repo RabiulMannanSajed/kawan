@@ -22,30 +22,30 @@ const mealSchema = new mongoose_1.Schema({
     },
     havingFood: [
         {
-            quantity: {
-                type: String, // e.g., "100g"
-            },
             foodType: {
                 type: String,
             },
-            GainCal: {
-                type: String,
-            },
-            GainProtein: {
-                type: String,
-            },
-            GainFat: {
-                type: String,
-            },
-            GainCarbo: {
-                type: String,
+            quantity: {
+                type: String, // e.g., "100g"
             },
         },
     ],
+    GainCal: {
+        type: Number,
+    },
+    GainProtein: {
+        type: Number,
+    },
+    GainFat: {
+        type: Number,
+    },
+    GainCarbo: {
+        type: Number,
+    },
+    totalCal: { type: Number },
     havingTime: {
         type: Date,
     },
-    totalCal: { type: String },
 });
 const healthySchema = new mongoose_1.Schema({
     user: {
@@ -77,7 +77,7 @@ const healthySchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-// this update for the helath
+// this update for the health
 healthySchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         // if (!this.user) {
@@ -96,8 +96,6 @@ healthySchema.pre('save', function (next) {
         this.BMI = userBMI;
         this.suggestion = getSuggestion;
         this.hight = updateHight;
-        console.log(this);
-        // Proceed with the save operation
         next();
     });
 });
@@ -105,11 +103,8 @@ healthySchema.pre('save', function (next) {
 healthySchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const update = this.getUpdate();
-        console.log('form update', update);
         let hight = update.hight;
         if (update && update.hight) {
-            console.log(`height ${update.hight}`);
-            // if the hight is not given handle the case
             const updateHight = yield (0, calculetHight_1.calculateHight)(hight);
             const updateBMI = (0, calculetBMI_1.calculateBMI)(updateHight, update.weight);
             // this suggestion from Model
@@ -120,16 +115,9 @@ healthySchema.pre('findOneAndUpdate', function (next) {
             this.setUpdate(update);
         }
         //* this is for the meals
-        // if (update && update.Meal) {
-        //   // update.Meal = update.Meal.map((meal) => ({
-        //   //   ...meal,
-        //   //   havingFood: Array.isArray(meal.havingFood)
-        //   //     ? meal.havingFood
-        //   //     : [meal.havingFood],
-        //   // }));
-        //   console.log('this is meal');
-        //   console.log(update);
-        // }
+        if (update && update.Meal) {
+            console.log('Meal', update.Meal);
+        }
         next();
     });
 });

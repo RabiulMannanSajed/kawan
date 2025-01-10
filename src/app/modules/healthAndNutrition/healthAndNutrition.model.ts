@@ -13,30 +13,28 @@ const mealSchema = new Schema<TMeal>({
   },
   havingFood: [
     {
-      quantity: {
-        type: String, // e.g., "100g"
-      },
       foodType: {
         type: String,
       },
-      GainCal: {
-        type: String,
-      },
-      GainProtein: {
-        type: String,
-      },
-      GainFat: {
-        type: String,
-      },
-      GainCarbo: {
-        type: String,
+      quantity: {
+        type: Number, // e.g., "100g"
       },
     },
   ],
+
+  GainProtein: {
+    type: Number,
+  },
+  GainFat: {
+    type: Number,
+  },
+  GainCarbo: {
+    type: Number,
+  },
+  totalCal: { type: Number },
   havingTime: {
     type: Date,
   },
-  totalCal: { type: String },
 });
 
 const healthySchema = new Schema<THealth>(
@@ -77,13 +75,13 @@ const healthySchema = new Schema<THealth>(
 type TUpdateMeal = {
   havingMeal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
   havingFood: {
-    quantity: string;
+    quantity: Number;
     foodType: string;
-    GainCal?: string;
-    GainProtein?: string;
-    GainFat?: string;
-    GainCarbo?: string;
   }[];
+  GainCal?: string;
+  GainProtein?: string;
+  GainFat?: string;
+  GainCarbo?: string;
   totalCal: string;
   havingTime: Date;
 };
@@ -96,7 +94,7 @@ interface UpdateType {
   Meal?: TUpdateMeal[];
 }
 
-// this update for the helath
+// this update for the health
 
 healthySchema.pre('save', async function (next) {
   // if (!this.user) {
@@ -112,25 +110,20 @@ healthySchema.pre('save', async function (next) {
   //   throw new Error('User height or weight is missing');
   // }
   const updateHight = await calculateHight(this.hight as string);
-  const userBMI = calculateBMI(updateHight, this.weight as any);
+  const userBMI = calculateBMI(updateHight, this.weight as string);
   const getSuggestion = await suggestionOfBMI(userBMI);
   this.BMI = userBMI;
   this.suggestion = getSuggestion;
   this.hight = updateHight;
-  console.log(this);
-  // Proceed with the save operation
   next();
 });
 
 // when user update the data this time calculate the Hight and the BMI
 healthySchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as UpdateType;
-  console.log('form update', update);
   let hight = update.hight;
 
   if (update && update.hight) {
-    console.log(`height ${update.hight}`);
-    // if the hight is not given handle the case
     const updateHight = await calculateHight(hight as string);
     const updateBMI = calculateBMI(updateHight, update.weight as string);
 
@@ -146,16 +139,9 @@ healthySchema.pre('findOneAndUpdate', async function (next) {
 
   //* this is for the meals
 
-  // if (update && update.Meal) {
-  //   // update.Meal = update.Meal.map((meal) => ({
-  //   //   ...meal,
-  //   //   havingFood: Array.isArray(meal.havingFood)
-  //   //     ? meal.havingFood
-  //   //     : [meal.havingFood],
-  //   // }));
-  //   console.log('this is meal');
-  //   console.log(update);
-  // }
+  if (update && update.Meal) {
+    console.log('Meal', update.Meal);
+  }
   next();
 });
 

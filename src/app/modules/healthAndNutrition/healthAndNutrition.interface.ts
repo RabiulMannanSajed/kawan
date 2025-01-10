@@ -3,14 +3,13 @@ import { Types } from 'mongoose';
 export type TMeal = {
   havingMeal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
   havingFood: {
-    quantity: string;
     foodType: string;
-    GainCal?: string;
-    GainProtein?: string;
-    GainFat?: string;
-    GainCarbo?: string;
+    quantity: number;
   }[];
-  totalCal: string;
+  GainProtein?: number;
+  GainFat?: number;
+  GainCarbo?: number;
+  totalCal: number;
   havingTime: Date;
 };
 
