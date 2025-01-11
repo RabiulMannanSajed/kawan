@@ -68,8 +68,8 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
         }
     }
     console.log('updatedHealth', updatedHealth);
-    // return updatedHealth;
-    return null;
+    return updatedHealth;
+    // return null;
 });
 const addNewMealIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
@@ -139,7 +139,17 @@ const weighGainOrLossFromDB = (id, payload) => __awaiter(void 0, void 0, void 0,
     const targetWeightNumber = parseInt(payload.targetWeight);
     //this is function to calculateCalories
     const CaloriesSuggestion = (0, healthAndNutrition_utils_1.calculateCalories)(currentWeightNumber, targetWeightNumber, payload.duration, maintenanceCalories);
-    console.log(CaloriesSuggestion);
+    console.log(CaloriesSuggestion.type);
+    // to upload those value in the database
+    const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: new mongoose_1.default.Types.ObjectId(id) }, {
+        $set: {
+            targetWeight: payload.targetWeight, // Set the target weight
+            TotalBaseOnDurationCal: CaloriesSuggestion.totalConsumedCalories, // Set the Total Calories based on duration
+            parDayCal: CaloriesSuggestion.dailyCalories, // Set the per day calories for gain/loss
+            duration: payload.duration, // Set the duration in days
+        },
+    }, { new: true });
+    return updatedRecord;
 });
 // const findTheCalFromDB = async (
 //   id: string,

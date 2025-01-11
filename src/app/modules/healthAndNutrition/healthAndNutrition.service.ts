@@ -61,8 +61,8 @@ const updateHealthIntoDB = async (id: string, payload: Partial<THealth>) => {
   }
   console.log('updatedHealth', updatedHealth);
 
-  // return updatedHealth;
-  return null;
+  return updatedHealth;
+  // return null;
 };
 
 const addNewMealIntoDB = async (id: string, payload: Partial<THealth>) => {
@@ -167,7 +167,22 @@ const weighGainOrLossFromDB = async (id: string, payload: Partial<THealth>) => {
     payload.duration as number,
     maintenanceCalories,
   );
-  console.log(CaloriesSuggestion);
+  console.log(CaloriesSuggestion.type);
+
+  // to upload those value in the database
+  const updatedRecord = await Health.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(id) },
+    {
+      $set: {
+        targetWeight: payload.targetWeight, // Set the target weight
+        TotalBaseOnDurationCal: CaloriesSuggestion.totalConsumedCalories, // Set the Total Calories based on duration
+        parDayCal: CaloriesSuggestion.dailyCalories, // Set the per day calories for gain/loss
+        duration: payload.duration, // Set the duration in days
+      },
+    },
+    { new: true }, // Return the updated document
+  );
+  return updatedRecord;
 };
 
 // const findTheCalFromDB = async (

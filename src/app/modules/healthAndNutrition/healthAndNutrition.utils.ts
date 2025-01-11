@@ -20,7 +20,7 @@ export const calculateCalories = (
       (maintenanceCalories + dailyCalories) * durationInDays;
 
     return {
-      type: `you need to gain weight daily consume Calories ${dailyCalories} in total ${durationInDays}s consume Calories ${totalConsumedCalories}`,
+      type: `you need to gain weight daily consume Calories ${dailyCalories} in total ${durationInDays} days consume Calories ${totalConsumedCalories}`,
       dailyCalories,
       totalConsumedCalories,
     };
@@ -32,7 +32,7 @@ export const calculateCalories = (
       (maintenanceCalories - dailyCalories) * durationInDays;
 
     return {
-      type: `you need to loss weight daily consume Calories ${dailyCalories} in total ${durationInDays}s consume Calories ${totalConsumedCalories}`,
+      type: `you need to loss weight daily consume Calories ${dailyCalories} in total ${durationInDays} days consume Calories ${totalConsumedCalories}`,
       dailyCalories,
       totalConsumedCalories,
     };
