@@ -13,7 +13,6 @@ exports.ChatService = void 0;
 const user_model_1 = require("../user/user.model");
 const chat_model_1 = require("./chat.model");
 const createChatIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload);
     // check those email exists or not
     const formEmailExists = yield user_model_1.User.findOne({ email: payload.FromEmail });
     if (!formEmailExists) {

@@ -17,6 +17,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const foodModel_1 = require("../../../modelTress/foodModel");
 const user_model_1 = require("../user/user.model");
 const healthAndNutrition_model_1 = require("./healthAndNutrition.model");
+const healthAndNutrition_utils_1 = require("./healthAndNutrition.utils");
 const createHealthIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield healthAndNutrition_model_1.Health.create(payload);
     return result;
@@ -70,9 +71,7 @@ const updateHealthIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, fu
     // return updatedHealth;
     return null;
 });
-const addNewMealIntoDB = (id, 
-// see when meal is optional the error is arive for the [number]
-payload) => __awaiter(void 0, void 0, void 0, function* () {
+const addNewMealIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
     if (!existingHealthRecord) {
         throw new Error('No record found for the provided ID');
@@ -83,20 +82,140 @@ payload) => __awaiter(void 0, void 0, void 0, function* () {
         const nutritionTotals = (0, foodModel_1.calculateTotalIntake)(foodValue);
         return Object.assign(Object.assign({}, meal), { totalCal: nutritionTotals.calories, GainCarbo: nutritionTotals.carbohydrates, GainFat: nutritionTotals.fats, GainProtein: nutritionTotals.proteins });
     });
-    // //! this is not working here
+    //! this is not working here
     // Push the new meal into the Meal array
     const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: new mongoose_1.default.Types.ObjectId(id) }, { $push: { Meal: newMeals } }, // MongoDB $push operator to add to the array
     { new: true });
     if (!updatedRecord) {
         throw new Error('Failed to update the record. Check the provided ID.');
     }
-    console.log('uprecord', updatedRecord);
     return updatedRecord;
 });
+// find the daily cal base on date
+const findTheCalFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e, _f;
+    const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
+    if (!existingHealthRecord) {
+        throw new Error('No record found for the provided ID');
+    }
+    const dailyDate = (_b = (_a = payload.dailyCalCount) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.DailyDate;
+    const targetDate = dailyDate
+        ? new Date(dailyDate).toISOString().split('T')[0]
+        : null;
+    if (!targetDate) {
+        console.log('No target date provided.');
+        return;
+    }
+    const totalCalories = ((_c = existingHealthRecord.Meal) === null || _c === void 0 ? void 0 : _c.reduce((sum, mealInfo) => {
+        const mealDate = new Date(mealInfo.havingTime)
+            .toISOString()
+            .split('T')[0];
+        if (mealDate === targetDate) {
+            return sum + (mealInfo.totalCal || 0);
+        }
+        return sum;
+    }, 0)) || 0;
+    const TodayCalGoal = (_f = (_e = (_d = payload.dailyCalCount) === null || _d === void 0 ? void 0 : _d[0]) === null || _e === void 0 ? void 0 : _e.TodayCalGoal) !== null && _f !== void 0 ? _f : 0;
+    const existingCal = TodayCalGoal - totalCalories;
+    const calIntakeDaily = {
+        TodayCalGoal: TodayCalGoal,
+        TodayCalIntake: totalCalories,
+        RemainingCal: existingCal,
+        DailyDate: dailyDate,
+    };
+    const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: new mongoose_1.default.Types.ObjectId(id) }, { $push: { dailyCalCount: calIntakeDaily } }, // MongoDB $push operator to add to the array
+    { new: true });
+    return updatedRecord;
+});
+const weighGainOrLossFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    //claculation
+    const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
+    console.log(existingHealthRecord);
+    if (!existingHealthRecord) {
+        throw new Error('No record found for the provided ID');
+    }
+    const maintenanceCalories = 2500;
+    const currentWeightNumber = parseInt(existingHealthRecord === null || existingHealthRecord === void 0 ? void 0 : existingHealthRecord.weight);
+    const targetWeightNumber = parseInt(payload.targetWeight);
+    //this is function to calculateCalories
+    const CaloriesSuggestion = (0, healthAndNutrition_utils_1.calculateCalories)(currentWeightNumber, targetWeightNumber, payload.duration, maintenanceCalories);
+    console.log(CaloriesSuggestion);
+});
+// const findTheCalFromDB = async (
+//   id: string,
+//   payload: { dailyCalCount: { TodayCalGoal: number; DailyDate: string }[] },
+// ) => {
+//   const existingHealthRecord = await Health.findById(id);
+//   if (!existingHealthRecord) {
+//     throw new Error('No record found for the provided ID');
+//   }
+//   // Extract the first entry from dailyCalCount
+//   const dailyCalEntry = payload.dailyCalCount?.[0];
+//   if (
+//     !dailyCalEntry ||
+//     !dailyCalEntry.DailyDate ||
+//     !dailyCalEntry.TodayCalGoal
+//   ) {
+//     throw new Error(
+//       'Invalid or missing DailyDate or TodayCalGoal. Please provide valid data.',
+//     );
+//   }
+//   const { TodayCalGoal, DailyDate } = dailyCalEntry;
+//   const parsedDate = new Date(DailyDate);
+//   if (isNaN(parsedDate.getTime())) {
+//     throw new Error(
+//       'Invalid or missing DailyDate. Please provide a valid date string.',
+//     );
+//   }
+//   const targetDate = parsedDate.toISOString().split('T')[0];
+//   // Filter meals matching the DailyDate
+//   const mealsOnDate =
+//     existingHealthRecord.Meal?.filter((meal) => {
+//       if (!meal.havingTime) return false;
+//       const mealDate = new Date(meal.havingTime).toISOString().split('T')[0];
+//       return mealDate === targetDate;
+//     }) || [];
+//   // Sum up totalCal for the matched meals
+//   const totalCalIntake = mealsOnDate.reduce((sum, meal) => {
+//     return sum + (meal.totalCal || 0);
+//   }, 0);
+//   // Calculate remaining calories
+//   const remainingCal = TodayCalGoal - totalCalIntake;
+//   // Update dailyCalCount
+//   const updatedDailyCalCount = existingHealthRecord.dailyCalCount || [];
+//   const existingEntryIndex = updatedDailyCalCount.findIndex(
+//     (entry) => entry.DailyDate === DailyDate,
+//   );
+//   if (existingEntryIndex > -1) {
+//     // Update existing entry
+//     updatedDailyCalCount[existingEntryIndex] = {
+//       ...updatedDailyCalCount[existingEntryIndex],
+//       TodayCalGoal,
+//       TodayCalIntake: totalCalIntake,
+//       RemainingCal: remainingCal,
+//     };
+//   } else {
+//     // Insert new entry
+//     updatedDailyCalCount.push({
+//       TodayCalGoal,
+//       TodayCalIntake: totalCalIntake,
+//       RemainingCal: remainingCal,
+//       DailyDate,
+//     });
+//   }
+//   // Save the updated record
+//   existingHealthRecord.dailyCalCount = updatedDailyCalCount;
+//   await existingHealthRecord.save();
+//   return {
+//     data: existingHealthRecord.dailyCalCount,
+//   };
+// };
 exports.HealthServices = {
+    findTheCalFromDB,
     addNewMealIntoDB,
-    createHealthIntoDB,
     getAllHealthFromDB,
-    getSingleHealthFormDB,
+    createHealthIntoDB,
     updateHealthIntoDB,
+    getSingleHealthFormDB,
+    weighGainOrLossFromDB,
 };

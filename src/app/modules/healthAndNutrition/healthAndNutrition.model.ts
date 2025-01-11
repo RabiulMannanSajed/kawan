@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { THealth, TMeal } from './healthAndNutrition.interface';
+import { TDailyCalCount, THealth, TMeal } from './healthAndNutrition.interface';
 import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
@@ -21,7 +21,6 @@ const mealSchema = new Schema<TMeal>({
       },
     },
   ],
-
   GainProtein: {
     type: Number,
   },
@@ -33,6 +32,22 @@ const mealSchema = new Schema<TMeal>({
   },
   totalCal: { type: Number },
   havingTime: {
+    type: Date,
+  },
+});
+
+const dailyCalCountSchema = new Schema<TDailyCalCount>({
+  TodayCalGoal: {
+    type: Number,
+  },
+  TodayCalIntake: {
+    type: Number,
+  },
+  RemainingCal: {
+    type: Number,
+  },
+
+  DailyDate: {
     type: Date,
   },
 });
@@ -65,12 +80,28 @@ const healthySchema = new Schema<THealth>(
     Meal: {
       type: [mealSchema], // Array of meal sub-schemas
     },
+    dailyCalCount: {
+      type: [dailyCalCountSchema],
+    },
+    targetWeight: {
+      type: String,
+    },
+    TotalBaseOnDurationCal: {
+      type: Number,
+    },
+    parDayCal: {
+      type: Number,
+    },
+    duration: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
   },
 );
 
+//!
 // this is for the update the user value
 type TUpdateMeal = {
   havingMeal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';

@@ -52,6 +52,8 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
         health.BMI = calculateBMI(hight, weight);
         health.hight = hight;
         health.weight = weight;
+
+        //! gender ,age ,blood group ,
         console.log(health.hight, health.weight);
         await health.save(); // Save changes
       }

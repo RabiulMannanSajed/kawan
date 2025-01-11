@@ -36,6 +36,9 @@ const UserSchema = new Schema<TUser>(
     weight: {
       type: String,
     },
+    age: {
+      type: String,
+    },
     hight: {
       type: String,
     },

@@ -8,6 +8,7 @@ export type TUser = {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   weight?: string;
   hight?: string;
+  age?: string;
   dateOfBirth?: string;
   contactNo?: string;
 };

@@ -13,4 +13,8 @@ route.patch('/:id', HealthController.updateHealth); // this with out meal any th
 
 route.patch('/addNewMeal/:id', HealthController.addNewMeal);
 
+route.patch('/findTheCal/:id', HealthController.findTheCal);
+
+route.patch('/weighGainOrLoss/:id', HealthController.weighGainOrLoss);
+
 export const HealthRouters = route;

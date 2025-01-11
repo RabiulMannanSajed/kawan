@@ -54,6 +54,7 @@ const updateUserIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
                 health.BMI = (0, calculetBMI_1.calculateBMI)(hight, weight);
                 health.hight = hight;
                 health.weight = weight;
+                //! gender ,age ,blood group ,
                 console.log(health.hight, health.weight);
                 yield health.save(); // Save changes
             }

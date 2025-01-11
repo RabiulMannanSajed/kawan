@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { HealthServices } from './healthAndNutrition.service';
+import catchAsync from '../../utils/catchAcync';
 
 const createHealth: RequestHandler = async (req, res, next) => {
   try {
@@ -27,6 +28,8 @@ const getAllHealth: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+// TODO: find  by the user ID not the Health ID
 
 const getSingleHealth: RequestHandler = async (req, res, next) => {
   try {
@@ -69,10 +72,40 @@ const addNewMeal: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+const findTheCal: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await HealthServices.findTheCalFromDB(id, req.body);
+    res.status(200).json({
+      success: true,
+      message: `this id:${id} of the get successfully`,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const weighGainOrLoss: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await HealthServices.weighGainOrLossFromDB(id, req.body);
+    res.status(200).json({
+      success: true,
+      message: `this id:${id} of the get successfully`,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const HealthController = {
+  findTheCal,
   addNewMeal,
+  updateHealth,
   createHealth,
   getAllHealth,
-  updateHealth,
   getSingleHealth,
+  weighGainOrLoss,
 };

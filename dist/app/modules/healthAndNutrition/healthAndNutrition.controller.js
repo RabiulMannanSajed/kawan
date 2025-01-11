@@ -38,6 +38,7 @@ const getAllHealth = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         next(error);
     }
 });
+// TODO: find  by the user ID not the Health ID
 const getSingleHealth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -80,10 +81,40 @@ const addNewMeal = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(error);
     }
 });
+const findTheCal = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield healthAndNutrition_service_1.HealthServices.findTheCalFromDB(id, req.body);
+        res.status(200).json({
+            success: true,
+            message: `this id:${id} of the get successfully`,
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const weighGainOrLoss = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield healthAndNutrition_service_1.HealthServices.weighGainOrLossFromDB(id, req.body);
+        res.status(200).json({
+            success: true,
+            message: `this id:${id} of the get successfully`,
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 exports.HealthController = {
+    findTheCal,
     addNewMeal,
+    updateHealth,
     createHealth,
     getAllHealth,
-    updateHealth,
     getSingleHealth,
+    weighGainOrLoss,
 };

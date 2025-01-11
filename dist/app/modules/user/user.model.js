@@ -44,6 +44,9 @@ const UserSchema = new mongoose_1.Schema({
     weight: {
         type: String,
     },
+    age: {
+        type: String,
+    },
     hight: {
         type: String,
     },

@@ -26,13 +26,10 @@ const mealSchema = new mongoose_1.Schema({
                 type: String,
             },
             quantity: {
-                type: String, // e.g., "100g"
+                type: Number, // e.g., "100g"
             },
         },
     ],
-    GainCal: {
-        type: Number,
-    },
     GainProtein: {
         type: Number,
     },
@@ -44,6 +41,20 @@ const mealSchema = new mongoose_1.Schema({
     },
     totalCal: { type: Number },
     havingTime: {
+        type: Date,
+    },
+});
+const dailyCalCountSchema = new mongoose_1.Schema({
+    TodayCalGoal: {
+        type: Number,
+    },
+    TodayCalIntake: {
+        type: Number,
+    },
+    RemainingCal: {
+        type: Number,
+    },
+    DailyDate: {
         type: Date,
     },
 });
@@ -73,6 +84,21 @@ const healthySchema = new mongoose_1.Schema({
     },
     Meal: {
         type: [mealSchema], // Array of meal sub-schemas
+    },
+    dailyCalCount: {
+        type: [dailyCalCountSchema],
+    },
+    targetWeight: {
+        type: String,
+    },
+    TotalBaseOnDurationCal: {
+        type: Number,
+    },
+    parDayCal: {
+        type: Number,
+    },
+    duration: {
+        type: Number,
     },
 }, {
     timestamps: true,

@@ -99,7 +99,6 @@ payload) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     const updatedHabit = yield habit_model_1.Habit.findById(id);
-    console.log(updatedHabit);
     return updatedHabit;
 });
 exports.HabitService = {
