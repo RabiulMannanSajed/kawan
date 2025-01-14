@@ -52,7 +52,10 @@ export type THealth = {
 
   weight?: string;
 
-  // TODO : new value
+  gender?: 'male' | 'female' | 'other';
+
+  age: string;
+
   targetWeight?: string;
 
   // for gain W  or Lose W

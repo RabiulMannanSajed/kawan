@@ -15,7 +15,6 @@ const calculetBMI_1 = require("../utils/calculetBMI");
 const calculetHight_1 = require("../utils/calculetHight");
 const trainModel_1 = require("../../../modelTress/trainModel");
 const mealSchema = new mongoose_1.Schema({
-    //! not check the enum type
     havingMeal: {
         type: String,
         enum: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
@@ -72,6 +71,16 @@ const healthySchema = new mongoose_1.Schema({
         type: String,
     },
     weight: {
+        type: String,
+    },
+    gender: {
+        type: String,
+        enum: {
+            values: ['male', 'female', 'other'],
+            message: "{VALUE} is not valid user this one of them 'male', 'female', 'other'",
+        },
+    },
+    age: {
         type: String,
     },
     suggestion: {

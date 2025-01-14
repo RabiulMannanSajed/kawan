@@ -6,7 +6,6 @@ import { calculateHight } from '../utils/calculetHight';
 import { suggestionOfBMI } from '../../../modelTress/trainModel';
 
 const mealSchema = new Schema<TMeal>({
-  //! not check the enum type
   havingMeal: {
     type: String,
     enum: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
@@ -67,6 +66,17 @@ const healthySchema = new Schema<THealth>(
       type: String,
     },
     weight: {
+      type: String,
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female', 'other'],
+        message:
+          "{VALUE} is not valid user this one of them 'male', 'female', 'other'",
+      },
+    },
+    age: {
       type: String,
     },
     suggestion: {
