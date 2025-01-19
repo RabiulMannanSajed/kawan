@@ -54,7 +54,7 @@ export type THealth = {
 
   gender?: 'male' | 'female' | 'other';
 
-  age: string;
+  age?: string;
 
   targetWeight?: string;
 

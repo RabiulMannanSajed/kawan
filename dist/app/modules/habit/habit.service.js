@@ -41,6 +41,7 @@ const getSingleHabitFromDB = (payload) => __awaiter(void 0, void 0, void 0, func
 const updateHabitIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // ... is spread oparetr
     const { DailyPractice } = payload, remainingHabitData = __rest(payload, ["DailyPractice"]);
+    console.log(DailyPractice);
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();

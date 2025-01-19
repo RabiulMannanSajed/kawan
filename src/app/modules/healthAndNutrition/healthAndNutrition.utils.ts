@@ -45,12 +45,3 @@ export const calculateCalories = (
     };
   }
 };
-
-//   // Example usage:
-//   const currentWeight = 75; // user's current weight in kg
-//   const targetWeight = 70;  // user's target weight in kg
-//   const durationInDays = 30; // duration in days
-//   const maintenanceCalories = 2500; // Maintenance calories (based on user's activity level, etc.)
-
-//   const result = calculateCalories(currentWeight, targetWeight, durationInDays, maintenanceCalories);
-//   console.log(result);

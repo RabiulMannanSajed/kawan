@@ -1,6 +1,5 @@
 import { model, Schema } from 'mongoose';
 import { TDailyCalCount, THealth, TMeal } from './healthAndNutrition.interface';
-import { User } from '../user/user.model';
 import { calculateBMI } from '../utils/calculetBMI';
 import { calculateHight } from '../utils/calculetHight';
 import { suggestionOfBMI } from '../../../modelTress/trainModel';

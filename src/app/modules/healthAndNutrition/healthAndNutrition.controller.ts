@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { HealthServices } from './healthAndNutrition.service';
-import catchAsync from '../../utils/catchAcync';
 
 const createHealth: RequestHandler = async (req, res, next) => {
   try {
@@ -100,6 +99,7 @@ const weighGainOrLoss: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
 export const HealthController = {
   findTheCal,
   addNewMeal,

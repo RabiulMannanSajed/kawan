@@ -109,6 +109,7 @@ const findTheCalFromDB = async (id: string, payload: Partial<THealth>) => {
   if (!existingHealthRecord) {
     throw new Error('No record found for the provided ID');
   }
+
   const dailyDate = payload.dailyCalCount?.[0]?.DailyDate;
   const targetDate = dailyDate
     ? new Date(dailyDate).toISOString().split('T')[0]
@@ -130,6 +131,7 @@ const findTheCalFromDB = async (id: string, payload: Partial<THealth>) => {
       return sum;
     }, 0) || 0;
 
+  // find RemainingCal
   const TodayCalGoal = payload.dailyCalCount?.[0]?.TodayCalGoal ?? 0;
   const existingCal = TodayCalGoal - totalCalories;
 
@@ -152,12 +154,13 @@ const weighGainOrLossFromDB = async (id: string, payload: Partial<THealth>) => {
   //claculation
   const existingHealthRecord = await Health.findById(id);
 
-  console.log(existingHealthRecord);
   if (!existingHealthRecord) {
     throw new Error('No record found for the provided ID');
   }
   const maintenanceCalories = 2500;
+  //user present W
   const currentWeightNumber = parseInt(existingHealthRecord?.weight as string);
+  //user given W
   const targetWeightNumber = parseInt(payload.targetWeight as string);
 
   //this is function to calculateCalories
@@ -167,7 +170,6 @@ const weighGainOrLossFromDB = async (id: string, payload: Partial<THealth>) => {
     payload.duration as number,
     maintenanceCalories,
   );
-  console.log(CaloriesSuggestion.type);
 
   // to upload those value in the database
   const updatedRecord = await Health.findOneAndUpdate(

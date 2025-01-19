@@ -7,6 +7,8 @@ const habit_route_1 = require("../modules/habit/habit.route");
 const chat_route_1 = require("../modules/chats/chat.route");
 const EBook_route_1 = require("../modules/EBook/EBook.route");
 const ReadBookPdf_route_1 = require("../modules/ReadBookPdf/ReadBookPdf.route");
+const predefineHabit_route_1 = require("../modules/predefineHabit/predefineHabit.route");
+const userPredifineHabit_route_1 = require("../modules/userPredifineHabit/userPredifineHabit.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -32,6 +34,14 @@ const moduleRoutes = [
     {
         path: '/readBookPdf',
         route: ReadBookPdf_route_1.ReadBookPdfRouters,
+    },
+    {
+        path: '/predefineHabit',
+        route: predefineHabit_route_1.PredefineHabitRoute,
+    },
+    {
+        path: '/userPredefineHabit',
+        route: userPredifineHabit_route_1.UserPredefineHabitRoute,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

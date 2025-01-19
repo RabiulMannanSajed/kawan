@@ -12,3 +12,15 @@ route.get('/', ReadBookPdf_controller_1.ReadBookPdfController.getAllReadBook);
 route.patch('/:id', ReadBookPdf_controller_1.ReadBookPdfController.deleteReadBookPdf);
 route.patch('/:id', ReadBookPdf_controller_1.ReadBookPdfController.favoriteReadBookPdf);
 exports.ReadBookPdfRouters = route;
+/*
+
+payment
+payment id
+
+Userid username useEmail
+total price
+card name
+cvc  pin card
+
+item name
+*/

@@ -3,16 +3,6 @@ import { EBook } from '../EBook/EBook.model';
 import { TReadBookPdf } from './ReadBookPdf.interface';
 import { ReadBookPdf } from './ReadBookPdf.model';
 
-// [
-//   URL,
-//   URL
-// ]
-// [
-//   {
-//     bookUrl,
-//     finished
-//   }
-// ]
 const createReadBookPdfIntoDB = async (payload: TReadBookPdf) => {
   console.log(payload);
   console.log(payload.ebookId);

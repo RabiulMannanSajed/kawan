@@ -6,6 +6,8 @@ import { ChatRoutes } from '../modules/chats/chat.route';
 import path from 'path';
 import { EBookRouters } from '../modules/EBook/EBook.route';
 import { ReadBookPdfRouters } from '../modules/ReadBookPdf/ReadBookPdf.route';
+import { PredefineHabitRoute } from '../modules/predefineHabit/predefineHabit.route';
+import { UserPredefineHabitRoute } from '../modules/userPredifineHabit/userPredifineHabit.route';
 
 const router = Router();
 const moduleRoutes = [
@@ -35,6 +37,14 @@ const moduleRoutes = [
   {
     path: '/readBookPdf',
     route: ReadBookPdfRouters,
+  },
+  {
+    path: '/predefineHabit',
+    route: PredefineHabitRoute,
+  },
+  {
+    path: '/userPredefineHabit',
+    route: UserPredefineHabitRoute,
   },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

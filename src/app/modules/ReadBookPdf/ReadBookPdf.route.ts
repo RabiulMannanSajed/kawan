@@ -11,3 +11,16 @@ route.patch('/:id', ReadBookPdfController.deleteReadBookPdf);
 route.patch('/:id', ReadBookPdfController.favoriteReadBookPdf);
 
 export const ReadBookPdfRouters = route;
+
+/*
+
+payment 
+payment id 
+
+Userid username useEmail
+total price 
+card name 
+cvc  pin card   
+
+item name 
+*/

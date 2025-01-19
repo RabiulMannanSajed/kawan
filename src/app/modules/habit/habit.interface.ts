@@ -1,9 +1,9 @@
 import { Types } from 'mongoose';
 
 export type TDailyPractice = {
-  StartDate: Date;
+  StartDate?: Date;
   EndDate?: Date;
-  workTime: string;
+  workTime?: string;
 };
 
 export type THabit = {

@@ -115,6 +115,7 @@ const findTheCalFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
         }
         return sum;
     }, 0)) || 0;
+    // find RemainingCal
     const TodayCalGoal = (_f = (_e = (_d = payload.dailyCalCount) === null || _d === void 0 ? void 0 : _d[0]) === null || _e === void 0 ? void 0 : _e.TodayCalGoal) !== null && _f !== void 0 ? _f : 0;
     const existingCal = TodayCalGoal - totalCalories;
     const calIntakeDaily = {
@@ -130,16 +131,16 @@ const findTheCalFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, func
 const weighGainOrLossFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     //claculation
     const existingHealthRecord = yield healthAndNutrition_model_1.Health.findById(id);
-    console.log(existingHealthRecord);
     if (!existingHealthRecord) {
         throw new Error('No record found for the provided ID');
     }
     const maintenanceCalories = 2500;
+    //user present W
     const currentWeightNumber = parseInt(existingHealthRecord === null || existingHealthRecord === void 0 ? void 0 : existingHealthRecord.weight);
+    //user given W
     const targetWeightNumber = parseInt(payload.targetWeight);
     //this is function to calculateCalories
     const CaloriesSuggestion = (0, healthAndNutrition_utils_1.calculateCalories)(currentWeightNumber, targetWeightNumber, payload.duration, maintenanceCalories);
-    console.log(CaloriesSuggestion.type);
     // to upload those value in the database
     const updatedRecord = yield healthAndNutrition_model_1.Health.findOneAndUpdate({ _id: new mongoose_1.default.Types.ObjectId(id) }, {
         $set: {

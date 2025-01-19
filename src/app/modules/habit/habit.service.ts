@@ -21,6 +21,7 @@ const getSingleHabitFromDB = async (payload: THabit) => {
 const updateHabitIntoDB = async (id: string, payload: Partial<THabit>) => {
   // ... is spread oparetr
   const { DailyPractice, ...remainingHabitData } = payload;
+  console.log(DailyPractice);
   const session = await mongoose.startSession();
 
   try {

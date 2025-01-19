@@ -12,25 +12,31 @@ const ReadBooksPdfSchema = new Schema<TReadBookPdf>({
   title: {
     type: String,
   },
+
   cover: {
     type: String,
   },
+
   author: {
     type: String,
   },
+
   rating: {
     type: Number,
   },
+
   category: { type: String },
 
   favorite: {
     type: Boolean,
     default: false,
   },
+
   isDelete: {
     type: Boolean,
     default: false,
   },
+
   book: [
     {
       pdfUrl: { type: String },
@@ -44,6 +50,7 @@ const ReadBooksPdfSchema = new Schema<TReadBookPdf>({
     },
   ],
 });
+
 export const ReadBookPdf = model<TReadBookPdf>(
   'ReadBookPdf',
   ReadBooksPdfSchema,

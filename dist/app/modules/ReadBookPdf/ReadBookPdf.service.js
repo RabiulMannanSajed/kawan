@@ -12,16 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReadBookPdfService = void 0;
 const EBook_model_1 = require("../EBook/EBook.model");
 const ReadBookPdf_model_1 = require("./ReadBookPdf.model");
-// [
-//   URL,
-//   URL
-// ]
-// [
-//   {
-//     bookUrl,
-//     finished
-//   }
-// ]
 const createReadBookPdfIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(payload);
     console.log(payload.ebookId);
